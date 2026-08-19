@@ -1,0 +1,13 @@
+.git
+.turbo
+node_modules
+dist
+coverage
+
+apps/*/dist
+apps/*/node_modules
+packages/*/dist
+packages/*/node_modules
+
+bun.lock
+routeTree.gen.ts

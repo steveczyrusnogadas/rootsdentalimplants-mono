@@ -1,0 +1,200 @@
+name: baseplate
+
+services:
+  api:
+    container_name: baseplate-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: api
+    restart: unless-stopped
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_started
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: ${DATABASE_URL:?DATABASE_URL is required}
+      DATABASE_SSL: ${DATABASE_SSL:-false}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:?BETTER_AUTH_URL is required}
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:?BETTER_AUTH_SECRET is required}
+      APP_ORIGINS: ${APP_ORIGINS:?APP_ORIGINS is required}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379}
+      TRUSTED_PROXY_HEADERS: ${TRUSTED_PROXY_HEADERS:-true}
+      RATE_LIMIT_CONTACT_MAX: ${RATE_LIMIT_CONTACT_MAX:-5}
+      RATE_LIMIT_CONTACT_WINDOW_MS: ${RATE_LIMIT_CONTACT_WINDOW_MS:-60000}
+      RATE_LIMIT_AUTH_MAX: ${RATE_LIMIT_AUTH_MAX:-10}
+      RATE_LIMIT_AUTH_WINDOW_MS: ${RATE_LIMIT_AUTH_WINDOW_MS:-60000}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:?ADMIN_EMAIL is required}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?ADMIN_PASSWORD is required}
+      ADMIN_NAME: ${ADMIN_NAME:-Admin}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      RESEND_FROM_EMAIL: ${RESEND_FROM_EMAIL:-}
+      S3_ENDPOINT: ${S3_ENDPOINT:-http://minio:9000}
+      S3_PUBLIC_ENDPOINT: ${S3_PUBLIC_ENDPOINT:?S3_PUBLIC_ENDPOINT is required}
+      S3_REGION: ${S3_REGION:-us-east-1}
+      S3_BUCKET: ${S3_BUCKET:-baseplate}
+      S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID:?S3_ACCESS_KEY_ID is required}
+      S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY:?S3_SECRET_ACCESS_KEY is required}
+      S3_FORCE_PATH_STYLE: ${S3_FORCE_PATH_STYLE:-true}
+    expose:
+      - "3000"
+    networks:
+      - dokploy-network
+    healthcheck:
+      test: ["CMD", "bun", "-e", "const r=await fetch('http://127.0.0.1:3000/health'); if(!r.ok) process.exit(1)"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  worker:
+    container_name: baseplate-worker
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: worker
+    restart: unless-stopped
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: ${DATABASE_URL:?DATABASE_URL is required}
+      DATABASE_SSL: ${DATABASE_SSL:-false}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379}
+      RESEND_API_KEY: ${RESEND_API_KEY:?RESEND_API_KEY is required}
+      RESEND_FROM_EMAIL: ${RESEND_FROM_EMAIL:?RESEND_FROM_EMAIL is required}
+      EVENT_WORKER_CONCURRENCY: ${EVENT_WORKER_CONCURRENCY:-5}
+      EMAIL_WORKER_CONCURRENCY: ${EMAIL_WORKER_CONCURRENCY:-3}
+      EMAIL_WORKER_RATE_LIMIT_MAX: ${EMAIL_WORKER_RATE_LIMIT_MAX:-5}
+      EMAIL_WORKER_RATE_LIMIT_DURATION_MS: ${EMAIL_WORKER_RATE_LIMIT_DURATION_MS:-1000}
+      NOTIFICATION_WORKER_CONCURRENCY: ${NOTIFICATION_WORKER_CONCURRENCY:-10}
+    networks:
+      - dokploy-network
+
+  migrate:
+    container_name: baseplate-migrate
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: api
+    restart: "no"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: ${DATABASE_URL:?DATABASE_URL is required}
+      DATABASE_SSL: ${DATABASE_SSL:-false}
+    command: ["bun", "run", "--filter=api", "db:migrate"]
+    networks:
+      - dokploy-network
+
+  web:
+    container_name: baseplate-web
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: web
+      args:
+        VITE_API_URL: ${VITE_API_URL:?VITE_API_URL is required}
+    restart: unless-stopped
+    environment:
+      HOST: 0.0.0.0
+      PORT: 80
+      INTERNAL_API_URL: http://api:3000
+    expose:
+      - "80"
+    networks:
+      - dokploy-network
+    healthcheck:
+      test: ["CMD", "bun", "-e", "const r=await fetch('http://127.0.0.1:80/'); if(!r.ok) process.exit(1)"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  admin:
+    container_name: baseplate-admin
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: admin
+      args:
+        VITE_API_URL: ${VITE_API_URL:?VITE_API_URL is required}
+    restart: unless-stopped
+    expose:
+      - "80"
+    networks:
+      - dokploy-network
+
+  postgres:
+    container_name: baseplate-postgres
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-baseplate}
+      POSTGRES_USER: ${POSTGRES_USER:-baseplate}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+    expose:
+      - "5432"
+    networks:
+      - dokploy-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    container_name: baseplate-redis
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    expose:
+      - "6379"
+    networks:
+      - dokploy-network
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    container_name: baseplate-minio
+    image: minio/minio:latest
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-baseplate}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?MINIO_ROOT_PASSWORD is required}
+      MINIO_API_CORS_ALLOW_ORIGIN: ${APP_ORIGINS:?APP_ORIGINS is required}
+      MINIO_SERVER_URL: ${MINIO_SERVER_URL:?MINIO_SERVER_URL is required}
+      MINIO_BROWSER_REDIRECT_URL: ${MINIO_BROWSER_REDIRECT_URL:?MINIO_BROWSER_REDIRECT_URL is required}
+    expose:
+      - "9000"
+      - "9001"
+    networks:
+      - dokploy-network
+    volumes:
+      - minio_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
+  minio_data:
+
+networks:
+  dokploy-network:
+    external: true

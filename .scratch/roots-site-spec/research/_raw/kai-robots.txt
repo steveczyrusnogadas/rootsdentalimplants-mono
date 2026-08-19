@@ -1,0 +1,65 @@
+# ─── Global rules (apply to all crawlers) ───────────────────
+User-agent: *
+Disallow: /confirmation/
+Disallow: /thank-you-contact/
+Disallow: /privacy-policy/
+
+
+# ─── AI answer/retrieval bots (allowed) ────────────────────
+# ChatGPT-User is the browsing bot (not training) — allow explicitly
+# because it falls back to GPTBot rules when no own rule exists.
+User-agent: ChatGPT-User
+Allow: /
+
+
+# ─── AI training crawlers (blocked) ─────────────────────────
+# These scrape content to train LLMs. They do not send traffic.
+# Answer/retrieval bots (OAI-SearchBot, PerplexityBot, Applebot,
+# Googlebot, Bingbot, etc.) are NOT in this list and remain allowed
+# via the global rule above.
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: cohere-training-data-crawler
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: Omgilibot
+Disallow: /
+
+User-agent: ImagesiftBot
+Disallow: /
+
+User-agent: Timpibot
+Disallow: /
+
+
+# ─── Sitemap ────────────────────────────────────────────────
+Sitemap: https://kaidentalmaui.com/sitemap.xml

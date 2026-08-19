@@ -1,0 +1,7 @@
+{
+  "requested": "https://rootsdentalimplants.com/wp-json/wp/v2/types",
+  "final": "https://rootsdentalimplants.com/wp-json/wp/v2/types",
+  "status": 200,
+  "content_type": "application/json; charset=UTF-8",
+  "saved": "rest/wp-v2-types.json"
+}

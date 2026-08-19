@@ -1,0 +1,174 @@
+@import "@fontsource-variable/jost";
+@import "@fontsource-variable/source-sans-3";
+
+/* PROTOTYPE — throwaway tokens for the Roots homepage stub (ticket 08).
+   Logo-sampled greens per the look-principles ticket: forest, sage, mint,
+   ink (pine), paper, smoke. Not the production token set. */
+.roots-proto {
+  --forest: #1d3a29;
+  --pine: #101f16;
+  --sage: #7ea98d;
+  --mint: #e9f1e8;
+  --paper: #faf8f3;
+  --smoke: #5c6a5f;
+  --line: rgb(16 31 22 / 0.14);
+  --line-light: rgb(250 248 243 / 0.22);
+
+  font-family: "Source Sans 3 Variable", system-ui, sans-serif;
+  color: var(--pine);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+.roots-proto .font-display {
+  font-family: "Jost Variable", "Futura", "Century Gothic", sans-serif;
+}
+
+/* PROTOTYPE — cheap motion: hero entrance + scroll reveals. */
+@keyframes proto-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.roots-proto .hero-in {
+  animation: proto-rise 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.roots-proto .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.roots-proto .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes botanical-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-1deg);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0) rotate(1deg);
+  }
+}
+
+@keyframes draw-root {
+  from {
+    stroke-dashoffset: 900;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.roots-motion {
+  overflow: clip;
+}
+
+.roots-motion .botanical-float {
+  animation: botanical-float 7s ease-in-out infinite;
+  filter: drop-shadow(0 30px 28px rgb(20 51 35 / 0.16));
+  will-change: transform;
+}
+
+.roots-motion .root-path {
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+  animation: draw-root 3.2s 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.roots-motion .roots-leaf {
+  position: absolute;
+  width: 150px;
+  height: 310px;
+  pointer-events: none;
+  opacity: 0.18;
+  border: 2px solid var(--sage);
+  border-right: 0;
+  border-bottom: 0;
+  border-radius: 100% 0 0;
+  transform: rotate(-34deg);
+}
+
+.roots-motion .roots-leaf::before,
+.roots-motion .roots-leaf::after {
+  position: absolute;
+  width: 68px;
+  height: 31px;
+  content: "";
+  border: 1px solid var(--sage);
+  border-radius: 100% 0 100% 0;
+}
+
+.roots-motion .roots-leaf::before {
+  top: 34%;
+  left: -33px;
+  transform: rotate(-24deg);
+}
+
+.roots-motion .roots-leaf::after {
+  top: 55%;
+  left: 8px;
+  transform: rotate(28deg) scaleX(-1);
+}
+
+.roots-motion .roots-leaf-a {
+  top: 5%;
+  left: -60px;
+}
+
+.roots-motion .roots-leaf-b {
+  right: -35px;
+  bottom: 2%;
+  transform: rotate(148deg);
+}
+
+.roots-motion .roots-leaf-c {
+  right: 2%;
+  bottom: -90px;
+  transform: rotate(182deg) scale(1.35);
+}
+
+.roots-motion a,
+.roots-motion button,
+.roots-motion summary,
+.roots-motion select,
+.roots-motion input {
+  outline-offset: 4px;
+}
+
+.roots-motion :is(a, button, summary, select, input):focus-visible {
+  outline: 3px solid var(--sage);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roots-proto .hero-in {
+    animation: none;
+  }
+  .roots-proto .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .roots-motion .botanical-float,
+  .roots-motion .root-path {
+    animation: none;
+  }
+
+  .roots-motion .root-path {
+    stroke-dashoffset: 0;
+  }
+}
+

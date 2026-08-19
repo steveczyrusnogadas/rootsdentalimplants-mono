@@ -1,0 +1,49 @@
+{
+  "name": "api",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run src/dev.ts",
+    "dev:api": "bun run --hot src/index.ts",
+    "dev:worker": "bun run --hot src/worker.ts",
+    "build": "bun build src/index.ts src/worker.ts --outdir dist --target bun",
+    "start": "bun run src/index.ts",
+    "worker": "bun run src/worker.ts",
+    "check-types": "tsc --noEmit",
+    "test": "bun test",
+    "lint": "eslint . --max-warnings 0",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "seed:admin": "bun run src/database/seed-admin.ts",
+    "seed:demo": "bun run src/database/seed-demo.ts",
+    "seed:locations": "bun run src/database/seed-locations.ts",
+    "db:reset-demo": "bun run src/database/seed-demo.ts --reset"
+  },
+  "dependencies": {
+    "@ai-sdk/openai": "^3.0.67",
+    "@aws-sdk/client-s3": "^3.1037.0",
+    "@aws-sdk/s3-request-presigner": "^3.1037.0",
+    "@better-auth/drizzle-adapter": "^1.6.9",
+    "@mastra/ai-sdk": "^1.4.3",
+    "@mastra/core": "^1.37.1",
+    "@repo/types": "workspace:*",
+    "ai": "^6.0.193",
+    "better-auth": "^1.6.9",
+    "bullmq": "^5.76.2",
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
+    "hono": "^4.12.15",
+    "ioredis": "^5.10.1",
+    "pg": "^8.20.0",
+    "resend": "^6.12.2",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "*",
+    "@types/bun": "latest",
+    "@types/pg": "8.20.0",
+    "drizzle-kit": "^0.31.10",
+    "eslint": "^9.39.1"
+  }
+}

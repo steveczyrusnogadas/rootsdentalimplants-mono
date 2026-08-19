@@ -1,0 +1,23 @@
+---
+description: Admin React Query invalidation for audited mutations
+globs: apps/admin/src/**/*.tsx
+alwaysApply: false
+---
+
+# Admin React Query Invalidation
+
+When adding or changing admin mutations, keep React Query caches synchronized with every related UI surface.
+
+- In mutation `onSuccess`, update exact detail/profile caches with `queryClient.setQueryData(...)` when the response has the fresh record.
+- Also invalidate related list families with the query key factories from `@/lib/query-keys`, such as `adminLeadKeys.lists()` or `adminUserKeys.lists()`.
+- If the backend route records an admin audit event with `recordAdminAuditEvent(...)`, also invalidate `adminActivityKeys.lists()`. Activity is the audit trail and is related to users, leads, profile, and any future audited admin workflow.
+- Prefer targeted invalidation over global cache invalidation. Do not use `queryClient.invalidateQueries()` without a `queryKey` unless there is a specific reason.
+
+Example:
+
+```tsx
+onSuccess: () => {
+  void queryClient.invalidateQueries({ queryKey: adminLeadKeys.lists() });
+  void queryClient.invalidateQueries({ queryKey: adminActivityKeys.lists() });
+}
+```

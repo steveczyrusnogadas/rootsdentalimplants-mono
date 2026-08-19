@@ -1,0 +1,87 @@
+{
+  "origin": "https://rootsdentalimplants.com",
+  "started": "2026-08-18T14:16:15.786279+00:00",
+  "finished": "2026-08-18T14:18:28.886808+00:00",
+  "force": false,
+  "page_urls": 48,
+  "pages_on_disk": 48,
+  "pages_written_this_run": 0,
+  "image_assets": 80,
+  "images_saved": 78,
+  "image_urls_found": 213,
+  "missing_images": [
+    {
+      "ok": false,
+      "url": "https://rootsdentalimplants.com/wp-content/uploads/2024/01/roots-dental-implants-hero.jpg",
+      "error": "HTTP 404 text/html; charset=UTF-8"
+    },
+    {
+      "ok": false,
+      "url": "https://rootsdentalimplants.com/wp-content/uploads/2023/11/Roots-Dental-Logo.png",
+      "error": "HTTP 404 text/html; charset=UTF-8"
+    }
+  ],
+  "posters_saved": 40,
+  "youtube_ids": [
+    "0FeAI1BSSFw",
+    "2FPTk-kRf2U",
+    "34ghcvVDS5I",
+    "8JzSocfTRl0",
+    "8LhuSmWURAc",
+    "FHHAhgexIh8",
+    "If4y67lJzaM",
+    "O0I8Jk2livA",
+    "YEPJpGkD14U",
+    "_O0m31JsxEw",
+    "bZ7jPr7QTk8",
+    "fgPvxnh0nDY",
+    "iRSN7rHyZZk",
+    "ixfj8vE2TZw",
+    "pN3CBJLzDLE",
+    "sGpBwyDRxyI",
+    "x_hY-3fO7tE",
+    "z7WdOxs6twQ"
+  ],
+  "vimeo_ids": [
+    "1040251039",
+    "1040252443",
+    "1040255650",
+    "1040259033",
+    "1040622074",
+    "1041278519",
+    "1041285470",
+    "1041287630",
+    "1041289704",
+    "1041293180",
+    "1041294668",
+    "1041321604",
+    "1041322454",
+    "1042055147",
+    "1042055230",
+    "1042055961",
+    "1042056860",
+    "1043809908",
+    "1101639362",
+    "1101752183",
+    "1101755418",
+    "1108607676"
+  ],
+  "skipped_videos": [
+    "https://rootsdentalimplants.com/wp-content/uploads/2025/02/Untitled-video.mp4"
+  ],
+  "embed_counts": {
+    "youtube": 18,
+    "vimeo": 22,
+    "wp-video": 1
+  },
+  "url_count": 1513,
+  "redirect_count": 10,
+  "error_count": 0,
+  "errors": [],
+  "notes": [
+    "WP REST /wp/v2/media is expected to 403 unauthenticated; images come from sitemaps + HTML.",
+    "Patient/site videos are not downloaded. YouTube/Vimeo posters are. WP mp4s are listed in embeds.json.",
+    "Quiz ?location= variants and /locations/{city}/ permalinks are extra URLs beyond the Yoast sitemaps.",
+    "Image download prefers the unsized original; leftover srcset sizes stay if already captured."
+  ]
+}

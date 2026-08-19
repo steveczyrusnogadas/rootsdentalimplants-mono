@@ -1,0 +1,8 @@
+{
+  "requested": "https://rootsdentalimplants.com/wp-json/wp/v2/media?per_page=100",
+  "final": "https://rootsdentalimplants.com/wp-json/wp/v2/media?per_page=100",
+  "status": 403,
+  "content_type": "text/html; charset=UTF-8",
+  "saved": null,
+  "note": "not JSON 200 \u2014 body prefix stored as .hdr.txt"
+}

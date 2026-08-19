@@ -1,0 +1,5 @@
+@import "tailwindcss";
+@import "@repo/ui/styles/globals.css";
+@import "@assistant-ui/react-markdown/styles/dot.css";
+
+@source "../../../packages/ui/src";
