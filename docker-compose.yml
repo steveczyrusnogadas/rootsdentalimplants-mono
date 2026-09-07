@@ -1,41 +1,48 @@
-name: baseplate
+name: ${COMPOSE_PROJECT_NAME:?Run bun run setup first}
 
 services:
   postgres:
     image: postgres:17-alpine
-    container_name: baseplate-postgres
     restart: "no"
     environment:
       POSTGRES_DB: baseplate
       POSTGRES_USER: baseplate
       POSTGRES_PASSWORD: baseplate
     ports:
-      - "5050:5432"
+      - "127.0.0.1:${POSTGRES_PORT:-5050}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U baseplate -d baseplate"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
   redis:
     image: redis:7-alpine
-    container_name: baseplate-redis
     restart: "no"
     command: redis-server --appendonly yes
     ports:
-      - "6379:6379"
+      - "127.0.0.1:${REDIS_PORT:-6379}:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
     volumes:
       - redis_data:/data
 
   minio:
     image: minio/minio:latest
-    container_name: baseplate-minio
     restart: "no"
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: baseplate
       MINIO_ROOT_PASSWORD: baseplate-minio-password
-      MINIO_API_CORS_ALLOW_ORIGIN: http://localhost:5000,http://localhost:5173
+      MINIO_API_CORS_ALLOW_ORIGIN: ${APP_ORIGINS:-http://localhost:5000,http://localhost:5173}
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "127.0.0.1:${MINIO_PORT:-9000}:9000"
+      - "127.0.0.1:${MINIO_CONSOLE_PORT:-9001}:9001"
     volumes:
       - minio_data:/data
 

@@ -9,15 +9,15 @@ import {
   type SortingState,
 } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
-import { Badge } from "@repo/ui/components/badge";
-import { Button } from "@repo/ui/components/button";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@repo/ui/components/card";
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -25,10 +25,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@repo/ui/components/dialog";
-import { Input } from "@repo/ui/components/input";
-import { Label } from "@repo/ui/components/label";
-import { Textarea } from "@repo/ui/components/textarea";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { PlusIcon } from "lucide-react";
 import { AdminDataTable } from "@/components/admin-data-table";
 import { AdminPagination } from "@/components/admin-pagination";

@@ -6,7 +6,7 @@ import {
   PaginationItem,
   PaginationNext,
   PaginationPrevious,
-} from "@repo/ui/components/pagination";
+} from "@/components/ui/pagination";
 
 type AdminPaginationProps = {
   pagination: PaginationMeta;

@@ -10,8 +10,8 @@ import {
 } from "@tanstack/react-table";
 import type { AdminUser, UserResponse, UserRole, UsersResponse } from "@repo/types/admin/users";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Badge } from "@repo/ui/components/badge";
-import { Button } from "@repo/ui/components/button";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,14 +21,14 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@repo/ui/components/alert-dialog";
+} from "@/components/ui/alert-dialog";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@repo/ui/components/card";
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -36,15 +36,15 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@repo/ui/components/dialog";
-import { Input } from "@repo/ui/components/input";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@repo/ui/components/select";
+} from "@/components/ui/select";
 import { PlusIcon, Trash2Icon } from "lucide-react";
 import { AdminDataTable } from "@/components/admin-data-table";
 import { AdminPagination } from "@/components/admin-pagination";

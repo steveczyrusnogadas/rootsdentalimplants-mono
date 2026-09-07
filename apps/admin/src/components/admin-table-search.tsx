@@ -1,4 +1,4 @@
-import { Input } from "@repo/ui/components/input";
+import { Input } from "@/components/ui/input";
 import { SearchIcon } from "lucide-react";
 
 type AdminTableSearchProps = {

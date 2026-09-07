@@ -61,14 +61,6 @@ export const adminActivityKeys = {
     [...adminActivityKeys.lists(), { page, pageSize, search, sortBy, sortDir }] as const,
 };
 
-export const adminLocationKeys = {
-  all: ["admin", "locations"] as const,
-  lists: () => [...adminLocationKeys.all, "list"] as const,
-  list: (published: string, page: number, pageSize: number, search: string, sortBy: string, sortDir: string) =>
-    [...adminLocationKeys.lists(), { published, page, pageSize, search, sortBy, sortDir }] as const,
-  detail: (id: string) => [...adminLocationKeys.all, "detail", id] as const,
-};
-
 export const adminNotificationKeys = {
   all: ["admin", "notifications"] as const,
   list: () => [...adminNotificationKeys.all, "list"] as const,

@@ -12,11 +12,13 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
+    "dev": "bun run scripts/dev.ts",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md,json,yml,yaml,css}\"",
     "check-types": "turbo run check-types",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "setup": "bun run scripts/setup.ts",
+    "test:setup": "bun test scripts/local-config.test.ts"
   },
   "workspaces": [
     "apps/*",

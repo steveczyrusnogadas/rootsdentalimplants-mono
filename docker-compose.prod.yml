@@ -1,8 +1,5 @@
-name: baseplate
-
 services:
   api:
-    container_name: baseplate-api
     build:
       context: .
       dockerfile: Dockerfile
@@ -20,6 +17,7 @@ services:
       DATABASE_URL: ${DATABASE_URL:?DATABASE_URL is required}
       DATABASE_SSL: ${DATABASE_SSL:-false}
       BETTER_AUTH_URL: ${BETTER_AUTH_URL:?BETTER_AUTH_URL is required}
+      BETTER_AUTH_COOKIE_PREFIX: ${BETTER_AUTH_COOKIE_PREFIX:-better-auth}
       BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:?BETTER_AUTH_SECRET is required}
       APP_ORIGINS: ${APP_ORIGINS:?APP_ORIGINS is required}
       REDIS_URL: ${REDIS_URL:-redis://redis:6379}
@@ -42,8 +40,6 @@ services:
       S3_FORCE_PATH_STYLE: ${S3_FORCE_PATH_STYLE:-true}
     expose:
       - "3000"
-    networks:
-      - dokploy-network
     healthcheck:
       test: ["CMD", "bun", "-e", "const r=await fetch('http://127.0.0.1:3000/health'); if(!r.ok) process.exit(1)"]
       interval: 30s
@@ -52,7 +48,6 @@ services:
       start_period: 10s
 
   worker:
-    container_name: baseplate-worker
     build:
       context: .
       dockerfile: Dockerfile
@@ -75,11 +70,8 @@ services:
       EMAIL_WORKER_RATE_LIMIT_MAX: ${EMAIL_WORKER_RATE_LIMIT_MAX:-5}
       EMAIL_WORKER_RATE_LIMIT_DURATION_MS: ${EMAIL_WORKER_RATE_LIMIT_DURATION_MS:-1000}
       NOTIFICATION_WORKER_CONCURRENCY: ${NOTIFICATION_WORKER_CONCURRENCY:-10}
-    networks:
-      - dokploy-network
 
   migrate:
-    container_name: baseplate-migrate
     build:
       context: .
       dockerfile: Dockerfile
@@ -93,11 +85,8 @@ services:
       DATABASE_URL: ${DATABASE_URL:?DATABASE_URL is required}
       DATABASE_SSL: ${DATABASE_SSL:-false}
     command: ["bun", "run", "--filter=api", "db:migrate"]
-    networks:
-      - dokploy-network
 
   web:
-    container_name: baseplate-web
     build:
       context: .
       dockerfile: Dockerfile
@@ -109,19 +98,19 @@ services:
       HOST: 0.0.0.0
       PORT: 80
       INTERNAL_API_URL: http://api:3000
+    depends_on:
+      api:
+        condition: service_healthy
     expose:
       - "80"
-    networks:
-      - dokploy-network
     healthcheck:
-      test: ["CMD", "bun", "-e", "const r=await fetch('http://127.0.0.1:80/'); if(!r.ok) process.exit(1)"]
+      test: ["CMD", "bun", "-e", "const r=await fetch('http://127.0.0.1:80/healthz.txt'); if(!r.ok) process.exit(1)"]
       interval: 30s
       timeout: 5s
       retries: 5
       start_period: 10s
 
   admin:
-    container_name: baseplate-admin
     build:
       context: .
       dockerfile: Dockerfile
@@ -131,11 +120,8 @@ services:
     restart: unless-stopped
     expose:
       - "80"
-    networks:
-      - dokploy-network
 
   postgres:
-    container_name: baseplate-postgres
     image: postgres:17-alpine
     restart: unless-stopped
     environment:
@@ -144,8 +130,6 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
     expose:
       - "5432"
-    networks:
-      - dokploy-network
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -155,14 +139,11 @@ services:
       retries: 5
 
   redis:
-    container_name: baseplate-redis
     image: redis:7-alpine
     restart: unless-stopped
     command: redis-server --appendonly yes
     expose:
       - "6379"
-    networks:
-      - dokploy-network
     volumes:
       - redis_data:/data
     healthcheck:
@@ -172,7 +153,6 @@ services:
       retries: 5
 
   minio:
-    container_name: baseplate-minio
     image: minio/minio:latest
     restart: unless-stopped
     command: server /data --console-address ":9001"
@@ -185,8 +165,6 @@ services:
     expose:
       - "9000"
       - "9001"
-    networks:
-      - dokploy-network
     volumes:
       - minio_data:/data
 
@@ -194,7 +172,3 @@ volumes:
   postgres_data:
   redis_data:
   minio_data:
-
-networks:
-  dokploy-network:
-    external: true

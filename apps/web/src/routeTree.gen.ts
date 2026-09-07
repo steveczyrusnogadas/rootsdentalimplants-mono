@@ -10,150 +10,33 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as BlogRouteImport } from './routes/blog'
-import { Route as ChangelogRouteImport } from './routes/changelog'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as BlogIndexRouteImport } from './routes/blog/index'
-import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
-import { Route as ContactThankYouRouteImport } from './routes/contact_.thank-you'
-import { Route as PrototypeHomeRouteImport } from './routes/prototype/home'
-import { Route as PrototypeQuizRouteImport } from './routes/prototype/quiz'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BlogRoute = BlogRouteImport.update({
-  id: '/blog',
-  path: '/blog',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ChangelogRoute = ChangelogRouteImport.update({
-  id: '/changelog',
-  path: '/changelog',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BlogIndexRoute = BlogIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => BlogRoute,
-} as any)
-const BlogSlugRoute = BlogSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => BlogRoute,
-} as any)
-const ContactThankYouRoute = ContactThankYouRouteImport.update({
-  id: '/contact_/thank-you',
-  path: '/contact/thank-you',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrototypeHomeRoute = PrototypeHomeRouteImport.update({
-  id: '/prototype/home',
-  path: '/prototype/home',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrototypeQuizRoute = PrototypeQuizRouteImport.update({
-  id: '/prototype/quiz',
-  path: '/prototype/quiz',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/blog': typeof BlogRouteWithChildren
-  '/changelog': typeof ChangelogRoute
-  '/contact': typeof ContactRoute
-  '/blog/$slug': typeof BlogSlugRoute
-  '/contact/thank-you': typeof ContactThankYouRoute
-  '/prototype/home': typeof PrototypeHomeRoute
-  '/prototype/quiz': typeof PrototypeQuizRoute
-  '/blog/': typeof BlogIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/changelog': typeof ChangelogRoute
-  '/contact': typeof ContactRoute
-  '/blog/$slug': typeof BlogSlugRoute
-  '/contact/thank-you': typeof ContactThankYouRoute
-  '/prototype/home': typeof PrototypeHomeRoute
-  '/prototype/quiz': typeof PrototypeQuizRoute
-  '/blog': typeof BlogIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/blog': typeof BlogRouteWithChildren
-  '/changelog': typeof ChangelogRoute
-  '/contact': typeof ContactRoute
-  '/blog/$slug': typeof BlogSlugRoute
-  '/contact_/thank-you': typeof ContactThankYouRoute
-  '/prototype/home': typeof PrototypeHomeRoute
-  '/prototype/quiz': typeof PrototypeQuizRoute
-  '/blog/': typeof BlogIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/about'
-    | '/blog'
-    | '/changelog'
-    | '/contact'
-    | '/blog/$slug'
-    | '/contact/thank-you'
-    | '/prototype/home'
-    | '/prototype/quiz'
-    | '/blog/'
+  fullPaths: '/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/about'
-    | '/changelog'
-    | '/contact'
-    | '/blog/$slug'
-    | '/contact/thank-you'
-    | '/prototype/home'
-    | '/prototype/quiz'
-    | '/blog'
-  id:
-    | '__root__'
-    | '/'
-    | '/about'
-    | '/blog'
-    | '/changelog'
-    | '/contact'
-    | '/blog/$slug'
-    | '/contact_/thank-you'
-    | '/prototype/home'
-    | '/prototype/quiz'
-    | '/blog/'
+  to: '/'
+  id: '__root__' | '/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
-  BlogRoute: typeof BlogRouteWithChildren
-  ChangelogRoute: typeof ChangelogRoute
-  ContactRoute: typeof ContactRoute
-  ContactThankYouRoute: typeof ContactThankYouRoute
-  PrototypeHomeRoute: typeof PrototypeHomeRoute
-  PrototypeQuizRoute: typeof PrototypeQuizRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -165,93 +48,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/blog': {
-      id: '/blog'
-      path: '/blog'
-      fullPath: '/blog'
-      preLoaderRoute: typeof BlogRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/changelog': {
-      id: '/changelog'
-      path: '/changelog'
-      fullPath: '/changelog'
-      preLoaderRoute: typeof ChangelogRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/blog/': {
-      id: '/blog/'
-      path: '/'
-      fullPath: '/blog/'
-      preLoaderRoute: typeof BlogIndexRouteImport
-      parentRoute: typeof BlogRoute
-    }
-    '/blog/$slug': {
-      id: '/blog/$slug'
-      path: '/$slug'
-      fullPath: '/blog/$slug'
-      preLoaderRoute: typeof BlogSlugRouteImport
-      parentRoute: typeof BlogRoute
-    }
-    '/contact_/thank-you': {
-      id: '/contact_/thank-you'
-      path: '/contact/thank-you'
-      fullPath: '/contact/thank-you'
-      preLoaderRoute: typeof ContactThankYouRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/prototype/home': {
-      id: '/prototype/home'
-      path: '/prototype/home'
-      fullPath: '/prototype/home'
-      preLoaderRoute: typeof PrototypeHomeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/prototype/quiz': {
-      id: '/prototype/quiz'
-      path: '/prototype/quiz'
-      fullPath: '/prototype/quiz'
-      preLoaderRoute: typeof PrototypeQuizRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
-interface BlogRouteChildren {
-  BlogSlugRoute: typeof BlogSlugRoute
-  BlogIndexRoute: typeof BlogIndexRoute
-}
-
-const BlogRouteChildren: BlogRouteChildren = {
-  BlogSlugRoute: BlogSlugRoute,
-  BlogIndexRoute: BlogIndexRoute,
-}
-
-const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
-  BlogRoute: BlogRouteWithChildren,
-  ChangelogRoute: ChangelogRoute,
-  ContactRoute: ContactRoute,
-  ContactThankYouRoute: ContactThankYouRoute,
-  PrototypeHomeRoute: PrototypeHomeRoute,
-  PrototypeQuizRoute: PrototypeQuizRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

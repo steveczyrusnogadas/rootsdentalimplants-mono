@@ -1,6 +1,6 @@
-# Roots Dental Implants
+# Baseplate
 
-The public marketing site, admin operations, and shared backend for Roots Dental Implant Center — a multi-location implant practice replacing its WordPress site.
+Baseplate is a generic TypeScript monorepo starter for future products. This glossary covers terms used across the public site, internal admin operations, and shared backend capabilities.
 
 ## Language
 
@@ -12,36 +12,16 @@ _Avoid_: User (when you mean an internal operator), owner
 An authenticated internal operator with role `manager` who can use most admin CMS surfaces but cannot manage users.
 _Avoid_: Admin (when you mean the manager role), editor (as a stored role name)
 
-**Location**:
-A Roots Dental practice site with its own address, phone, and hours, shown on the public site and stored on every Lead.
-_Avoid_: Office, clinic (as the stored name), branch
-
-**Provider**:
-A clinician shown on the public site (dentist or CRNA), editable in admin.
-_Avoid_: Doctor (as the stored name — not every Provider is a dentist), user
-
 **Lead**:
-A public intake submission captured for follow-up in the admin CRM, including consultation requests, eligibility quizzes, and implant-dinner RSVPs.
-_Avoid_: Contact (when you mean an unconverted intake record), prospect, appointment (no slot is reserved)
-
-**Consultation request**:
-The public booking act: a patient asks for a consult at a Location with a preferred window. It creates a Lead.
-_Avoid_: Appointment, booking (when you mean the stored Lead)
-
-**Implant dinner**:
-A per-Location patient-education dinner campaign; an RSVP creates a Lead, including a waitlist when the page has no date.
-_Avoid_: Seminar, event (as the stored name)
-
-**Eligibility quiz**:
-A public intake of implant-related questions, including Location, that creates a Lead.
-_Avoid_: HighLevel (as the name of the surface), funnel
+A contact-form submission captured for follow-up in the admin CRM.
+_Avoid_: Contact (when you mean an unconverted intake record), prospect
 
 **Contact**:
 A CRM record managed in admin, often converted from a Lead.
 _Avoid_: Lead (after conversion), customer (unless in marketing copy)
 
 **Blog post**:
-An editorial content record with draft/publish workflow.
+An editorial content record with draft/publish workflow, shown on the public site when published.
 _Avoid_: Article (as the stored entity name), page
 
 **Media asset**:

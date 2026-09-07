@@ -10,8 +10,3 @@ export const blogKeys = {
   recent: (limit: number) => [...blogKeys.all, "recent", { limit }] as const,
   detail: (slug: string) => [...blogKeys.all, "detail", slug] as const,
 };
-
-export const locationKeys = {
-  all: ["locations"] as const,
-  published: () => [...locationKeys.all, "published"] as const,
-};

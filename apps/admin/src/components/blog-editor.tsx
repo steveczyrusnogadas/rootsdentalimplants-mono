@@ -8,9 +8,9 @@ import Underline from "@tiptap/extension-underline";
 import { EditorContent, useEditor, type Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
-import { Button } from "@repo/ui/components/button";
-import { Input } from "@repo/ui/components/input";
-import { Label } from "@repo/ui/components/label";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
@@ -18,8 +18,8 @@ import {
   PopoverHeader,
   PopoverTitle,
   PopoverTrigger,
-} from "@repo/ui/components/popover";
-import { Separator } from "@repo/ui/components/separator";
+} from "@/components/ui/popover";
+import { Separator } from "@/components/ui/separator";
 import {
   AlignCenterIcon,
   AlignLeftIcon,

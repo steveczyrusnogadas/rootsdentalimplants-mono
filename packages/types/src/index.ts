@@ -5,6 +5,4 @@ export * from "./admin/activity.js";
 export * from "./admin/readiness.js";
 export * from "./admin/seed.js";
 export * from "./admin/settings.js";
-export * from "./admin/location.js";
 export * from "./blog.js";
-export * from "./location.js";

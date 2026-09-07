@@ -1,5 +1,5 @@
 import type { Column } from "@tanstack/react-table";
-import { Button } from "@repo/ui/components/button";
+import { Button } from "@/components/ui/button";
 import { ArrowDownIcon, ArrowUpDownIcon, ArrowUpIcon } from "lucide-react";
 
 type AdminSortableHeaderProps<TData, TValue> = {

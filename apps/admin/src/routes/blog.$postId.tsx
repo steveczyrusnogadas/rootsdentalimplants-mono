@@ -1,7 +1,7 @@
 import { createFileRoute, redirect, useParams } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import type { AdminBlogPostResponse } from "@repo/types/admin/blog";
-import { Alert, AlertDescription } from "@repo/ui/components/alert";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { BlogPostForm } from "@/components/blog-post-form";
 import { adminApi } from "@/lib/api";
 import { authClient } from "@/lib/auth-client";

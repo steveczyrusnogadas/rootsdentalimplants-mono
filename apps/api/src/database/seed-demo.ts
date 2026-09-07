@@ -4,7 +4,6 @@ import type { DemoSeedResult } from "@repo/types/admin/seed";
 import { inArray, eq } from "drizzle-orm";
 import { createCredentialUser } from "../shared/create-credential-user";
 import { db } from "./client";
-import { seedLocations } from "./seed-locations";
 import { blogPost, lead, user } from "./schema";
 
 const demoPassword = process.env.DEMO_PASSWORD ?? "demo-password-123";
@@ -194,7 +193,6 @@ async function main() {
     users: await seedDemoUsers(),
     leads: await seedDemoLeads(),
     blogPosts: await seedDemoPosts(),
-    locations: await seedLocations(),
     reset: shouldReset,
   };
 

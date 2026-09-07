@@ -6,7 +6,7 @@ import {
   ThreadPrimitive,
 } from "@assistant-ui/react";
 import { MarkdownText } from "@/components/assistant-ui/markdown-text";
-import { Button } from "@repo/ui/components/button";
+import { Button } from "@/components/ui/button";
 import { ChevronDownIcon, MessageCircleIcon, SendIcon, SquareIcon } from "lucide-react";
 
 function AdminChatThread() {

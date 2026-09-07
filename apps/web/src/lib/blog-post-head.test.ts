@@ -48,6 +48,10 @@ const loaderData: PublicBlogPostResponse = {
 };
 
 describe("blogPostHead", () => {
+  test("does not invent article metadata when a loader fails", () => {
+    expect(blogPostHead({ loaderData: undefined })).toEqual({ meta: [] });
+  });
+
   test("emits SEO and Open Graph tags from loader data without fetching", () => {
     process.env.VITE_API_URL = "https://api.example.com/";
     process.env.INTERNAL_API_URL = "http://api:3000";

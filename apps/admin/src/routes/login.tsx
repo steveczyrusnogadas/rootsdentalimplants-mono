@@ -3,9 +3,9 @@ import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { createFileRoute } from "@tanstack/react-router";
-import { Button } from "@repo/ui/components/button";
-import { Input } from "@repo/ui/components/input";
-import { Label } from "@repo/ui/components/label";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { authKeys } from "@/lib/query-keys";
@@ -41,15 +41,17 @@ function LoginPage() {
       }
 
       return {
-        twoFactorRequired: Boolean(data?.twoFactorRedirect),
-        twoFactorMethods: ((data?.twoFactorMethods ?? []) as string[]).filter(
+        twoFactorRequired: Boolean(data && "twoFactorRedirect" in data && data.twoFactorRedirect === true),
+        twoFactorMethods: (
+          data && "twoFactorMethods" in data && Array.isArray(data.twoFactorMethods) ? data.twoFactorMethods : []
+        ).filter(
           (method): method is TwoFactorMethod => method === "totp" || method === "otp",
         ),
       };
     },
     onSuccess: (result) => {
       if (result.twoFactorRequired) {
-        const methods = result.twoFactorMethods.length ? result.twoFactorMethods : ["totp"];
+        const methods: TwoFactorMethod[] = result.twoFactorMethods.length ? result.twoFactorMethods : ["totp"];
         setRequiresTwoFactor(true);
         setTwoFactorMethods(methods);
         setSelectedTwoFactorMethod(methods[0] ?? "totp");
@@ -61,9 +63,7 @@ function LoginPage() {
   });
   const sendOtpMutation = useMutation({
     mutationFn: async () => {
-      const { error } = await authClient.twoFactor.sendOtp({
-        trustDevice: true,
-      });
+      const { error } = await authClient.twoFactor.sendOtp();
 
       if (error) {
         throw new Error(error.message || "Unable to send email code.");

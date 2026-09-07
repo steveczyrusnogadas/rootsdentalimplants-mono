@@ -9,11 +9,11 @@ import type {
   UpdateAdminNotificationPreferencesPayload,
 } from "@repo/types/admin/settings";
 import { useEffect, useMemo, useState, type ChangeEvent } from "react";
-import { Alert, AlertDescription } from "@repo/ui/components/alert";
-import { Avatar, AvatarFallback, AvatarImage } from "@repo/ui/components/avatar";
-import { Badge } from "@repo/ui/components/badge";
-import { Button } from "@repo/ui/components/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@repo/ui/components/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -21,12 +21,12 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@repo/ui/components/dialog";
-import { Input } from "@repo/ui/components/input";
-import { Label } from "@repo/ui/components/label";
-import { Separator } from "@repo/ui/components/separator";
-import { toast } from "@repo/ui/components/sonner";
-import { Switch } from "@repo/ui/components/switch";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { toast } from "@/components/ui/sonner";
+import { Switch } from "@/components/ui/switch";
 import { adminApi, resolveApiUrl } from "@/lib/api";
 import { authClient } from "@/lib/auth-client";
 import { adminActivityKeys, adminNotificationKeys, adminProfileKeys, settingsKeys } from "@/lib/query-keys";
@@ -554,7 +554,7 @@ function SettingsPage() {
       </form>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_1.5fr]">
-        <Card size="sm">
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <BellIcon className="size-5" />
@@ -613,7 +613,7 @@ function SettingsPage() {
           </CardContent>
         </Card>
 
-        <Card size="sm">
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <ShieldCheckIcon className="size-5" />

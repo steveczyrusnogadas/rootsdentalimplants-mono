@@ -1,430 +1,668 @@
-import { Badge } from "@repo/ui/components/badge";
-import { Link } from "@tanstack/react-router";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@repo/ui/components/card";
-import { Separator } from "@repo/ui/components/separator";
-import { AbstractIllustration } from "./components/AbstractIllustration";
-import {
-  ClipboardList,
-  Cpu,
-  Database,
-  Bell,
-  GitBranch,
-  Images,
-  KeyRound,
-  LayoutDashboard,
-  LayoutGrid,
-  Layers,
-  Mail,
-  Palette,
-  PenLine,
-  ShieldCheck,
-  UploadCloud,
-  Zap,
-} from "lucide-react";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { resolveApiUrl } from "@/lib/api";
-import { HOME_RECENT_LIMIT, recentBlogPostsQuery } from "@/lib/blog-queries";
+import { useEffect, useRef, useState } from "react";
+import { ArrowDown, ArrowUpRight, Menu, Plus, X } from "lucide-react";
 
-function App() {
-  const { data } = useSuspenseQuery(recentBlogPostsQuery(HOME_RECENT_LIMIT));
-  const recentPosts = data.posts;
-  const appSurfaces = [
-    {
-      name: "Public web",
-      path: "apps/web",
-      port: "5173",
-      description:
-        "A Vite + React public site with TanStack Router, contact forms, blog pages, recent posts, live API data, and shared theme controls.",
-    },
-    {
-      name: "Admin dashboard",
-      path: "apps/admin",
-      port: "5000",
-      description:
-        "An authenticated dashboard with Better Auth guards, users, leads, notifications, blog publishing, media library, profile settings, and uploads.",
-    },
-    {
-      name: "API backend",
-      path: "apps/api",
-      port: "3000",
-      description:
-        "A Bun + Hono service for auth, contact intake, blog/media APIs, admin APIs, readiness checks, Drizzle data access, S3 uploads, and BullMQ workers.",
-    },
-  ];
-  const includedFeatures = [
-    {
-      icon: KeyRound,
-      label: "Authentication",
-      title: "Better Auth is wired in",
-      description:
-        "Email/password auth, password reset email, session cookies, the admin plugin, and a first-admin seed flow are ready for local projects.",
-    },
-    {
-      icon: ShieldCheck,
-      label: "Admin",
-      title: "Protected management tools",
-      description:
-        "Admin-only routes handle users, leads, profile settings, and sign-out through guarded Hono API endpoints.",
-    },
-    {
-      icon: Database,
-      label: "Database",
-      title: "Postgres + Drizzle",
-      description:
-        "The API uses Drizzle ORM with PostgreSQL, migrations, schema files, and a Docker Compose service for local development.",
-    },
-    {
-      icon: Mail,
-      label: "Leads",
-      title: "Contact to dashboard flow",
-      description:
-        "Public contact submissions land in the API, emit a domain event, and surface in the admin dashboard with stats and lead management.",
-    },
-    {
-      icon: Bell,
-      label: "Realtime",
-      title: "Admin notifications",
-      description:
-        "Lead events create persisted admin notifications, publish realtime updates over SSE, and appear in the dashboard notification bell with unread counts.",
-    },
-    {
-      icon: GitBranch,
-      label: "Workers",
-      title: "Redis-backed job queues",
-      description:
-        "BullMQ queues dispatch domain events, send password reset email, create notifications, and are covered by production readiness checks.",
-    },
-    {
-      icon: UploadCloud,
-      label: "Storage",
-      title: "S3-compatible media",
-      description:
-        "Local MinIO support powers signed avatar uploads and a reusable media library with stable public image URLs.",
-    },
-    {
-      icon: PenLine,
-      label: "Blog",
-      title: "Tiptap publishing workflow",
-      description:
-        "Admins can draft and publish blog posts with metadata, cover images, media insertion, and resizable aligned inline images.",
-    },
-    {
-      icon: Images,
-      label: "Media",
-      title: "Reusable image library",
-      description:
-        "The admin media section supports upload, thumbnail browsing, preview modals, copyable URLs, deletion, and blog insertion.",
-    },
-    {
-      icon: Palette,
-      label: "Theme",
-      title: "Shared light and dark mode",
-      description:
-        "A reusable theme provider and toggle keep public and admin interfaces aligned with persisted visual preferences.",
-    },
-    {
-      icon: LayoutDashboard,
-      label: "UI",
-      title: "Shared shadcn package",
-      description:
-        "Reusable components, global styles, Tailwind CSS v4, and editorial typography live in `@repo/ui` for both app surfaces.",
-    },
-    {
-      icon: ClipboardList,
-      label: "Quality",
-      title: "Tests and CI checks",
-      description:
-        "Root scripts run tests, type checks, lint, and builds through Turbo so API and frontend behavior have a repeatable safety net.",
-    },
-  ];
-  const workflowItems = [
-    "Install once with Bun workspaces",
-    "Run apps together with Turborepo",
-    "Proxy `/api` from web and admin to Hono",
-    "Seed the first admin account",
-    "Submit public contact forms",
-    "Manage users, leads, notifications, blog posts, media, profile, and avatar",
-    "Run Redis-backed jobs and realtime notification streams",
-    "Send password reset email through Resend workers",
-    "Check database, Redis, storage, and auth readiness",
-    "Publish public blog posts with Tiptap content",
-    "Reuse media images in covers and inline content",
-    "Switch themes in web or admin",
-    "Share TypeScript, ESLint, and Prettier presets",
-    "Verify changes with GitHub Actions tests, lint, types, and builds",
-    "Build production API and worker artifacts for Docker",
-    "Keep future contracts in `packages/types`",
-  ];
+const locations = [
+  {
+    name: "Portland",
+    state: "OR",
+    address: "4224 NE Halsey St #330",
+    zip: "Portland, OR 97213",
+    phone: "503-647-6135",
+    id: "38546",
+  },
+  {
+    name: "Gresham",
+    state: "OR",
+    address: "22400 SE Stark St, Suite 103",
+    zip: "Gresham, OR 97030",
+    phone: "503-512-6184",
+    id: "38552",
+  },
+  {
+    name: "Troutdale",
+    state: "OR",
+    address: "191 E Historic Columbia River Hwy",
+    zip: "Troutdale, OR 97060",
+    phone: "503-855-6792",
+    id: "38541",
+  },
+  {
+    name: "Salem",
+    state: "OR",
+    address: "2510 12th St SE",
+    zip: "Salem, OR 97302",
+    phone: "503-506-6339",
+    id: "38526",
+  },
+  {
+    name: "Vancouver",
+    state: "WA",
+    address: "16600 SE 15th St",
+    zip: "Vancouver, WA 98683",
+    phone: "360-310-4683",
+    id: "77842",
+  },
+];
 
+function Sprig({
+  className = "",
+  variant = "grove",
+}: {
+  className?: string;
+  variant?: "grove" | "pair" | "branch" | "original";
+}) {
   return (
-    <main className="min-h-svh bg-background text-foreground">
-      <div className="mx-auto max-w-6xl px-6 py-10">
-        {/* Masthead */}
-        <header className="flex flex-col items-center gap-3 pb-6">
-          <div className="w-full border-t border-foreground/20" />
-          <div className="flex w-full items-center justify-between py-2">
-            <span className="text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-muted-foreground">
-              Issue 01
-            </span>
-            <h2 className="font-heading text-2xl font-semibold tracking-tight">The Baseplate</h2>
-            <span className="text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-muted-foreground">
-              {new Date().toLocaleDateString("en-US", {
-                month: "long",
-                year: "numeric",
-              })}
-            </span>
-          </div>
-          <div className="w-full border-t border-foreground/20" />
-        </header>
-
-        {/* Cover Hero */}
-        <section className="mb-16 grid gap-10 md:grid-cols-[1fr_380px] md:gap-12">
-          <div className="flex flex-col gap-6">
-            <Badge variant="default" className="w-fit text-[0.65rem] tracking-[0.2em]">
-              COVER STORY
-            </Badge>
-            <h1 className="font-heading text-5xl font-semibold leading-[1.05] tracking-tight text-balance md:text-6xl lg:text-7xl">
-              A full-stack TypeScript baseplate with auth, admin, publishing, media, jobs, and shared UI.
-            </h1>
-            <p className="font-heading text-xl font-medium italic text-muted-foreground md:text-2xl">
-              Start new projects from a working backend, dashboard, database, worker, public site, publishing workflow,
-              and theme system.
-            </p>
-            <p className="max-w-xl text-base leading-7 text-muted-foreground">
-              Inside: Bun workspaces, Turborepo pipelines, Vite React frontends, a Hono API, Better Auth sessions,
-              contact intake, lead management, blog publishing, a reusable media library, signed uploads, realtime
-              notifications, password reset email, Drizzle migrations, PostgreSQL, Redis readiness, MinIO, Docker
-              targets, CI tests, and shadcn/ui components ready to extend.
-            </p>
-          </div>
-          <div className="flex items-center justify-center">
-            <AbstractIllustration />
-          </div>
-        </section>
-
-        <Separator className="mb-16" />
-
-        {/* Recent Blog Posts */}
-        <section className="mb-16">
-          <div className="mb-8 flex items-center gap-4">
-            <h3 className="font-heading text-2xl font-semibold tracking-tight">Recent Blog Posts</h3>
-            <div className="flex-1 border-t border-foreground/10" />
-            <Link
-              to="/blog"
-              className="text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground hover:text-foreground"
-            >
-              View all
-            </Link>
-          </div>
-          {recentPosts.length > 0 ? (
-            <div className="grid gap-6 md:grid-cols-3">
-              {recentPosts.map((post) => (
-                <Card key={post.id} className="overflow-hidden">
-                  {post.coverImage ? (
-                    <img src={resolveApiUrl(post.coverImage)} alt="" className="aspect-video w-full object-cover" />
-                  ) : null}
-                  <CardHeader>
-                    <Badge variant="secondary" className="mb-2 w-fit text-[0.6rem] tracking-[0.15em] uppercase">
-                      {post.category ?? "Article"}
-                    </Badge>
-                    <CardTitle className="font-heading text-xl">
-                      <Link to="/blog/$slug" params={{ slug: post.slug }} className="hover:text-primary">
-                        {post.title}
-                      </Link>
-                    </CardTitle>
-                    <CardDescription>{post.excerpt}</CardDescription>
-                  </CardHeader>
-                </Card>
-              ))}
-            </div>
-          ) : (
-            <div className="border border-dashed p-8 text-center text-sm text-muted-foreground">
-              Published posts will appear here.
-            </div>
-          )}
-        </section>
-
-        {/* App Surfaces */}
-        <section className="mb-16">
-          <div className="mb-8 flex items-center gap-4">
-            <h3 className="font-heading text-2xl font-semibold tracking-tight">Included Apps</h3>
-            <div className="flex-1 border-t border-foreground/10" />
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-3">
-            {appSurfaces.map((surface) => (
-              <Card key={surface.path} className="gap-0">
-                <CardHeader className="pb-4">
-                  <div className="mb-3 flex items-center justify-between gap-2">
-                    <Badge variant="default" className="text-[0.6rem] tracking-[0.15em]">
-                      PORT {surface.port}
-                    </Badge>
-                    <code className="rounded bg-muted px-1.5 py-1 text-xs text-muted-foreground">{surface.path}</code>
-                  </div>
-                  <CardTitle className="font-heading text-2xl font-semibold normal-case tracking-tight">
-                    {surface.name}
-                  </CardTitle>
-                  <CardDescription className="mt-1 text-sm text-muted-foreground">
-                    Ready-to-run workspace
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{surface.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        <Separator className="mb-16" />
-
-        {/* Feature Articles Grid */}
-        <section className="mb-16">
-          <div className="mb-8 flex items-center gap-4">
-            <h3 className="font-heading text-2xl font-semibold tracking-tight">What's Included</h3>
-            <div className="flex-1 border-t border-foreground/10" />
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2">
-            {includedFeatures.map((feature) => {
-              const Icon = feature.icon;
-
-              return (
-                <div key={feature.title} className="flex items-start gap-4 border border-foreground/10 p-6">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-primary/10">
-                    <Icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <Badge variant="secondary" className="mb-3 text-[0.6rem] tracking-[0.15em]">
-                      {feature.label}
-                    </Badge>
-                    <h4 className="font-heading text-lg font-semibold">{feature.title}</h4>
-                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
-        <Separator className="mb-16" />
-
-        {/* Spec Sheet / Detail Grid */}
-        <section className="mb-16">
-          <div className="mb-8 flex items-center gap-4">
-            <h3 className="font-heading text-2xl font-semibold tracking-tight">Architecture Notes</h3>
-            <div className="flex-1 border-t border-foreground/10" />
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="flex items-start gap-4 border border-foreground/10 p-6">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-primary/10">
-                <Cpu className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <h4 className="font-heading text-lg font-semibold">Shared UI and Theme Package</h4>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                  <code className="rounded bg-muted px-1 py-0.5 text-xs">@repo/ui</code> exports shadcn components,
-                  Tailwind tokens, global styles, fonts, and the theme provider consumed by every React app in the
-                  workspace.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4 border border-foreground/10 p-6">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-primary/10">
-                <GitBranch className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <h4 className="font-heading text-lg font-semibold">API Proxy</h4>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                  Vite dev server proxies <code className="rounded bg-muted px-1 py-0.5 text-xs">/api/*</code> to the
-                  Hono backend. Seamless local development with no CORS headaches.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4 border border-foreground/10 p-6">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-primary/10">
-                <LayoutGrid className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <h4 className="font-heading text-lg font-semibold">Typed Data Flows</h4>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                  TanStack Query keys, API helpers, TanStack Form state, and strict TypeScript keep data fetching and
-                  mutations predictable across public and admin flows.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4 border border-foreground/10 p-6">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-primary/10">
-                <Layers className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <h4 className="font-heading text-lg font-semibold">Turborepo Pipeline and Docker Runtime</h4>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                  Root scripts call Turbo tasks for development, tests, builds, real ESLint checks, type checks, and CI.
-                  Production Docker targets run the built API and worker artifacts.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <Separator className="mb-16" />
-
-        {/* Workflow Checklist */}
-        <section className="mb-16 grid gap-8 border border-foreground/10 p-6 md:grid-cols-[0.9fr_1.1fr] md:p-8">
-          <div>
-            <Badge variant="default" className="mb-4 text-[0.6rem] tracking-[0.15em]">
-              STARTER FLOW
-            </Badge>
-            <h3 className="font-heading text-3xl font-semibold tracking-tight">
-              Designed to become your next product quickly.
-            </h3>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              The repo documents local services, migrations, admin seeding, uploads, app ports, and frontend data
-              conventions so teams can clone, configure, and build from a working baseline.
-            </p>
-          </div>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {workflowItems.map((item) => (
-              <div key={item} className="flex items-center gap-3 bg-muted/40 px-4 py-3 text-sm">
-                <Zap className="h-4 w-4 shrink-0 text-primary" />
-                <span>{item}</span>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <Separator className="mb-16" />
-
-        {/* Editor's Note */}
-        <footer className="flex flex-col items-center gap-6 pb-10">
-          <blockquote className="max-w-2xl text-center">
-            <p className="font-heading text-xl italic leading-relaxed text-muted-foreground md:text-2xl">
-              "The best developer experience is the one you do not notice — it simply gets out of the way and lets you
-              build."
-            </p>
-          </blockquote>
-          <div className="flex items-center gap-3">
-            <div className="h-px w-12 bg-foreground/20" />
-            <span className="text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-muted-foreground">
-              Editor's Note
-            </span>
-            <div className="h-px w-12 bg-foreground/20" />
-          </div>
-          <p className="max-w-lg text-center text-sm leading-relaxed text-muted-foreground">
-            This page is rendered by <code className="rounded bg-muted px-1 py-0.5 text-xs">apps/web</code>, pulling
-            live data from <code className="rounded bg-muted px-1 py-0.5 text-xs">apps/api</code>, and styled with
-            theme-aware components from <code className="rounded bg-muted px-1 py-0.5 text-xs">packages/ui</code>. All
-            running on Bun, orchestrated by Turborepo.
-          </p>
-        </footer>
-      </div>
-    </main>
+    <img
+      className={`sprig ${className}`}
+      src={variant === "original" ? "/images/trees.svg" : `/images/evergreen-${variant}.svg`}
+      alt=""
+      aria-hidden="true"
+    />
   );
 }
 
+function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeTreatment, setActiveTreatment] = useState<number | null>(0);
+  const heroVideo = useRef<HTMLVideoElement>(null);
+  const [playingStory, setPlayingStory] = useState(false);
+  const [heroPlaying, setHeroPlaying] = useState(false);
+  const [motionAllowed, setMotionAllowed] = useState(false);
+  const [videoUnavailable, setVideoUnavailable] = useState(false);
+  useEffect(() => {
+    const video = heroVideo.current;
+    if (!video) return;
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => {
+      setMotionAllowed(!preference.matches);
+      if (preference.matches) video.pause();
+      else void video.play().catch(() => {});
+    };
+    update();
+    preference.addEventListener("change", update);
+    return () => preference.removeEventListener("change", update);
+  }, []);
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (media.matches || !window.IntersectionObserver) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("arrived");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 },
+    );
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <>
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+      <header className="site-header">
+        <a href="/" className="brand" aria-label="Roots Dental Implant Center home">
+          <img src="/images/logo.png" width="1040" height="461" alt="Roots Dental Implant Center" />
+        </a>
+        <nav className="desktop-nav" aria-label="Main navigation">
+          <a href="#care">Treatments</a>
+          <a href="#team">Our doctors</a>
+          <a href="#questions">FAQs</a>
+          <a href="#locations">Locations</a>
+        </nav>
+        <a href="#locations" className="button header-book">
+          Let’s talk <ArrowUpRight size={17} />
+        </a>
+        <button
+          className="menu-toggle"
+          type="button"
+          aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-navigation"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? <X /> : <Menu />}
+        </button>
+        {menuOpen && (
+          <nav
+            id="mobile-navigation"
+            className="mobile-nav"
+            aria-label="Mobile navigation"
+            onKeyDown={(event) => {
+              if (event.key === "Escape") setMenuOpen(false);
+            }}
+          >
+            {[
+              ["Treatments", "care"],
+              ["Our doctors", "team"],
+              ["FAQs", "questions"],
+              ["Find your location", "locations"],
+            ].map(([title, id]) => (
+              <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>
+                {title}
+                <ArrowUpRight size={18} />
+              </a>
+            ))}
+          </nav>
+        )}
+      </header>
+
+      <main id="main">
+        <section className="hero" aria-labelledby="hero-title">
+          <div className="hero-copy">
+            <h1 id="hero-title">
+              Transform your
+              <br />
+              smile with lasting
+              <br />
+              <em>dental implants.</em>
+            </h1>
+            <p className="hero-description">
+              Personalized dental implant care to help restore your confidence and functionality. Your next chapter
+              starts with a conversation.
+            </p>
+            <div className="hero-actions">
+              <a href="#locations" className="button">
+                Book your free consultation <ArrowUpRight size={18} />
+              </a>
+              <a className="button button-secondary" href="#care">
+                Explore implant care <ArrowDown size={16} />
+              </a>
+            </div>
+          </div>
+          <figure className="hero-photo">
+            <img
+              className="hero-poster"
+              src="/images/clinic.jpg"
+              alt="Roots Dental clinician with a patient"
+              width="1920"
+              height="1080"
+              fetchPriority="high"
+            />
+            <video
+              ref={heroVideo}
+              className={!motionAllowed || videoUnavailable ? "motion-disabled" : ""}
+              src="/video/roots-clinic.mp4"
+              poster="/images/clinic.jpg"
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-hidden="true"
+              onPlay={() => setHeroPlaying(true)}
+              onPause={() => setHeroPlaying(false)}
+              onError={() => setVideoUnavailable(true)}
+            />
+            {motionAllowed && !videoUnavailable && (
+              <button
+                className="video-toggle"
+                type="button"
+                onClick={() => {
+                  const video = heroVideo.current;
+                  if (!video) return;
+                  if (video.paused) void video.play().catch(() => {});
+                  else video.pause();
+                }}
+              >
+                {heroPlaying ? "Pause background video" : "Play background video"}
+              </button>
+            )}
+            <figcaption>Roots Dental Implant Center · A look inside our care</figcaption>
+          </figure>
+        </section>
+
+        <section className="care-values" aria-label="Why choose Roots">
+          <p className="eyebrow">YOU’RE IN GOOD HANDS</p>
+          <div>
+            <h2>Experienced team</h2>
+            <p>People who take the time to understand your needs.</p>
+          </div>
+          <div>
+            <h2>Advanced technology</h2>
+            <p>Digital tools with a focus on dental implant care.</p>
+          </div>
+          <div>
+            <h2>Personalized care</h2>
+            <p>A treatment plan centered around your goals.</p>
+          </div>
+          <div>
+            <h2>Comfort comes first</h2>
+            <p>A supportive setting and clear financial information.</p>
+          </div>
+        </section>
+
+        <section id="care" className="care-section section-pad">
+          <div className="care-intro reveal">
+            <div>
+              <p className="eyebrow">PERSONALIZED IMPLANT CARE</p>
+              <h2>
+                Dental implant
+                <br />
+                <em>treatments.</em>
+              </h2>
+            </div>
+          </div>
+          <div className="treatment-layout reveal">
+            <div className="treatment-note">
+              <span className="eyebrow">LET’S START WITH YOU</span>
+              <h3>
+                What would you
+                <br />
+                like to change?
+              </h3>
+              <Sprig variant="original" />
+              <p>
+                You don’t need to have
+                <br />
+                all the answers to begin.
+              </p>
+              <a href="#locations" className="text-link">
+                Talk with our team <ArrowUpRight size={18} />
+              </a>
+            </div>
+            <div className="treatment-options">
+              {[
+                {
+                  title: "A single missing tooth",
+                  image: "single-tooth",
+                  alt: "Crafting a dental restoration, from the Roots single-tooth implant page",
+                  copy: "Learn about single-tooth implants and discuss a replacement for a missing tooth with your dentist.",
+                  link: "single-tooth-implants",
+                  label: "Single-tooth implants",
+                },
+                {
+                  title: "A full smile to restore",
+                  image: "full-arch-treatment",
+                  alt: "Discussing a model during a consultation, from the Roots full-arch page",
+                  copy: "Explore full-arch implant care and the questions to bring to a consultation about replacing an upper or lower arch.",
+                  link: "full-arch-dental-implants",
+                  label: "Full-arch implants",
+                },
+                {
+                  title: "A different denture option",
+                  image: "implant-dentures",
+                  alt: "Roots care team with a patient, from the implant-supported dentures page",
+                  copy: "Ask your dental team about implant-supported dentures and how they compare with your current options.",
+                  link: "implant-supported-dentures",
+                  label: "Implant-supported dentures",
+                },
+              ].map((treatment, index) => (
+                <div className="treatment-item" key={treatment.link}>
+                  <h3>
+                    <button
+                      type="button"
+                      className="treatment-trigger"
+                      id={`treatment-trigger-${index}`}
+                      aria-expanded={activeTreatment === index}
+                      aria-controls={`treatment-panel-${index}`}
+                      onClick={() => setActiveTreatment(activeTreatment === index ? null : index)}
+                    >
+                      {treatment.title}
+                      <Plus size={21} />
+                    </button>
+                  </h3>
+                  <div
+                    id={`treatment-panel-${index}`}
+                    className={`treatment-panel ${activeTreatment === index ? "is-open" : ""}`}
+                    role="region"
+                    aria-labelledby={`treatment-trigger-${index}`}
+                    aria-hidden={activeTreatment !== index}
+                    inert={activeTreatment !== index}
+                  >
+                    <div className="treatment-panel-inner">
+                      <div className="option-content">
+                        <img
+                          className="treatment-image"
+                          src={`/images/${treatment.image}.jpg`}
+                          alt={treatment.alt}
+                          width="660"
+                          height="350"
+                          loading="lazy"
+                        />
+                        <div className="treatment-description">
+                          <p>{treatment.copy}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <div className="care-caption">
+                A consultation helps you understand your options. Treatment recommendations are individual.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="conversation-band">
+          <Sprig variant="original" />
+          <div className="reveal">
+            <p className="eyebrow">A LITTLE LESS UNKNOWN</p>
+            <h2>
+              Bring your questions.
+              <br />
+              <em>We’ll take it from there.</em>
+            </h2>
+            <p>
+              Your comfort matters. So does clear financial information.
+              <br />
+              Ask about a personalized treatment plan and an all-inclusive quote.
+            </p>
+            <a href="#locations" className="text-link">
+              Discuss your options <ArrowUpRight size={18} />
+            </a>
+          </div>
+          <div className="conversation-aside">
+            <span>YOUR FIRST STEP</span>
+            <p>
+              Choose a location.
+              <br />
+              Meet the team.
+              <br />
+              Talk through your options.
+            </p>
+            <a href="#locations" aria-label="Choose your location" className="circle-link">
+              <ArrowDown />
+            </a>
+          </div>
+        </section>
+
+        <section id="team" className="team-section section-pad">
+          <div className="team-heading reveal">
+            <p className="eyebrow">YOUR ROOTS TEAM</p>
+            <h2>
+              Meet
+              <br />
+              <em>our doctors.</em>
+            </h2>
+            <div className="team-introduction">
+              <p>
+                Our team combines advanced technology with personalized care. Meet a few of the people behind Roots
+                before you step through the door.
+              </p>
+              <a href="#locations" className="text-link">
+                Plan your visit <ArrowUpRight size={18} />
+              </a>
+            </div>
+          </div>
+          <div className="team-portraits">
+            {[
+              { name: "Clark Brinton", image: "brinton", slug: "dr-clark-brinton" },
+              { name: "Seth Huish", image: "huish", slug: "dr-seth-huish" },
+              { name: "Jonathan Gold", image: "gold", slug: "dr-jonathan-gold" },
+            ].map((person, i) => (
+              <article className={`person person-${i} reveal`} key={person.name}>
+                <div className="portrait-frame">
+                  <img
+                    src={`/images/${person.image}.jpg`}
+                    alt={`Dr. ${person.name}`}
+                    width="650"
+                    height="650"
+                    loading="lazy"
+                  />
+                </div>
+                <h3>Dr. {person.name}</h3>
+                <p>DMD</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="results" className="results-section section-pad">
+          <div className="results-heading reveal">
+            <div>
+              <p className="eyebrow">REAL ROOTS PATIENTS</p>
+              <h2>
+                Patient results
+                <br />
+                <em>& stories.</em>
+              </h2>
+            </div>
+          </div>
+          <div className="results-gallery">
+            {[1, 3].map((pair) => (
+              <figure className="result-pair reveal" key={pair}>
+                <div className="comparison-photos">
+                  <div>
+                    <span>Before</span>
+                    <img
+                      src={`/images/before-${pair}.jpg`}
+                      alt="Before treatment, as presented in the Roots patient gallery"
+                      width="1000"
+                      height="1000"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div>
+                    <span>After</span>
+                    <img
+                      src={`/images/after-${pair}.jpg`}
+                      alt="After treatment, paired by Roots with the adjacent before photograph"
+                      width="1000"
+                      height="1000"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </figure>
+            ))}
+          </div>
+          <p className="results-note">
+            Individual results vary. The original gallery does not identify these patients or specify their treatment
+            details.
+          </p>
+          <div className="patient-story reveal">
+            <div className="patient-video">
+              {playingStory ? (
+                <iframe
+                  src="https://player.vimeo.com/video/1040622074?h=fdb63c88e1&autoplay=1"
+                  title="Crystal’s story — Roots Dental All-On-X patient"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <button type="button" className="story-play" onClick={() => setPlayingStory(true)}>
+                  <span className="play-symbol" aria-hidden="true">
+                    ▶
+                  </span>
+                  <span>
+                    Watch Crystal’s story<small>Patient video from Roots Dental</small>
+                  </span>
+                  <ArrowUpRight size={23} />
+                </button>
+              )}
+            </div>
+            <div className="patient-story-copy">
+              <p className="eyebrow">PATIENT TESTIMONIAL</p>
+              <h3>Meet Crystal.</h3>
+              <p>Crystal, from Dallas, Oregon, shares her experience as a Roots Dental All-On-X patient.</p>
+            </div>
+            <div className="results-cta">
+              <p>
+                Let’s talk about
+                <br />
+                <em>your possibilities.</em>
+              </p>
+              <a className="button" href="#locations">
+                Book a consultation <ArrowUpRight size={18} />
+              </a>
+            </div>
+          </div>
+        </section>
+        <section className="reviews-section section-pad" aria-labelledby="reviews-title">
+          <div className="reviews-heading reveal">
+            <p className="eyebrow">PATIENT EXPERIENCES</p>
+            <h2 id="reviews-title">What our patients say.</h2>
+          </div>
+          <div className="review-quotes">
+            {[
+              { quote: "Everyone seemed knowledgeable, helpful, and pleasant.", name: "Bethany V.", location: "Salem" },
+              { quote: "The entire process was explained in detail.", name: "Kimberly S.", location: "Portland" },
+              { quote: "Thoroughly answered all my questions.", name: "Walter W.", location: "Vancouver" },
+            ].map((review) => (
+              <blockquote className="reveal" key={review.name}>
+                <p>“{review.quote}”</p>
+                <footer>
+                  <strong>{review.name}</strong>
+                  <span>{review.location}</span>
+                  <small>Review excerpt</small>
+                </footer>
+              </blockquote>
+            ))}
+          </div>
+        </section>
+
+        <section id="questions" className="questions-section section-pad">
+          <div className="reveal">
+            <p className="eyebrow">PATIENT INFORMATION</p>
+            <h2>
+              Frequently
+              <br />
+              <em>asked questions.</em>
+            </h2>
+            <a href="#locations" className="text-link">
+              Ask our team <ArrowUpRight size={18} />
+            </a>
+          </div>
+          <div className="questions-list reveal">
+            <details>
+              <summary>
+                How do I get started?
+                <Plus size={20} />
+              </summary>
+              <p>
+                Choose the Roots location that works for you below. You can book through its scheduling page or call the
+                team to discuss an implant consultation.
+              </p>
+            </details>
+            <details>
+              <summary>
+                What will my treatment cost?
+                <Plus size={20} />
+              </summary>
+              <p>
+                Your treatment needs are individual. Ask for a personalized plan and quote during your consultation. Our
+                team can also discuss financing and insurance with you.
+              </p>
+            </details>
+            <details>
+              <summary>
+                Which implant option is right for me?
+                <Plus size={20} />
+              </summary>
+              <p>
+                That’s a conversation to have with your dentist after an assessment. You can explore the options above
+                and bring your questions to your visit.
+              </p>
+            </details>
+          </div>
+          <aside className="patient-notice" aria-labelledby="patient-notice-title">
+            <h3 id="patient-notice-title">A note about misleading online implant offers</h3>
+            <p>
+              Roots has reported unaffiliated ads promising government grants or unrealistically low implant prices.
+              Confirm any offer directly with your Roots location and ask for a personalized treatment quote.
+            </p>
+          </aside>
+        </section>
+
+        <section id="locations" className="locations-section section-pad">
+          <div className="locations-heading reveal">
+            <div>
+              <p className="eyebrow">FIND A ROOTS IMPLANT CENTER</p>
+              <h2>
+                Your next step.
+                <br />
+                <em>A little closer.</em>
+              </h2>
+            </div>
+            <Sprig variant="original" />
+          </div>
+          <div className="location-list">
+            {locations.map((location) => (
+              <article className="location-row reveal" key={location.name}>
+                <div className="location-name">
+                  <h3>
+                    {location.name}
+                    <small>{location.state}</small>
+                  </h3>
+                </div>
+                <p>
+                  {location.address}
+                  <br />
+                  {location.zip}
+                </p>
+                <a className="location-phone" href={`tel:${location.phone}`}>
+                  {location.phone}
+                </a>
+                <a
+                  className="location-book"
+                  href={`https://app.nexhealth.com/appt/arvory_dental_management?lid=${location.id}`}
+                  aria-label={`Book a visit in ${location.name}`}
+                >
+                  Book a visit <ArrowUpRight size={18} />
+                </a>
+              </article>
+            ))}
+          </div>
+          <p className="booking-note">
+            Online booking opens our scheduling partner, NexHealth. Prefer a conversation? Call your location directly.
+          </p>
+        </section>
+      </main>
+
+      <footer className="site-footer">
+        <div className="footer-grid">
+          <div className="footer-brand">
+            <a href="/" aria-label="Roots Dental Implant Center home">
+              <img src="/images/logo.png" width="1040" height="461" alt="Roots Dental Implant Center" />
+            </a>
+            <p>
+              Personalized implant care.
+              <br />
+              Rooted in Oregon & Washington.
+            </p>
+          </div>
+          <nav aria-label="Footer implant care">
+            <h2>Explore Roots</h2>
+            <a href="#care">Dental implant treatments</a>
+            <a href="#results">Patient results</a>
+            <a href="#team">Meet our doctors</a>
+            <a href="#questions">Frequently asked questions</a>
+          </nav>
+          <nav aria-label="Footer visit planning">
+            <h2>Plan your visit</h2>
+            <a href="#locations">Find your location</a>
+            <a href="#locations">
+              Book a consultation <ArrowUpRight size={13} />
+            </a>
+            <a href="mailto:implants@rootsdental.com">
+              Contact our team <ArrowUpRight size={13} />
+            </a>
+            <a href="mailto:implants@rootsdental.com">implants@rootsdental.com</a>
+          </nav>
+          <div className="footer-consultation">
+            <h2>Let’s talk about your smile.</h2>
+            <p>Start with a conversation at your nearest Roots Implant Center.</p>
+            <a className="button" href="#locations">
+              Book a consultation <ArrowUpRight size={18} />
+            </a>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <span>© {new Date().getFullYear()} Roots Dental Implant Center</span>
+          <div>
+            <a className="back-top" href="#main">
+              Back to top <ArrowUpRight size={15} />
+            </a>
+          </div>
+        </div>
+      </footer>
+    </>
+  );
+}
 export default App;

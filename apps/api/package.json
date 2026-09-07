@@ -12,13 +12,13 @@
     "test": "bun test",
     "lint": "eslint . --max-warnings 0",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
+    "db:migrate": "bun run src/database/migrate.ts",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "seed:admin": "bun run src/database/seed-admin.ts",
     "seed:demo": "bun run src/database/seed-demo.ts",
-    "seed:locations": "bun run src/database/seed-locations.ts",
-    "db:reset-demo": "bun run src/database/seed-demo.ts --reset"
+    "db:reset-demo": "bun run src/database/seed-demo.ts --reset",
+    "db:adopt-legacy": "bun run src/database/adopt-legacy.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.67",

@@ -6,7 +6,7 @@ void ensureStorageBucket().catch((error) => {
 });
 
 export default {
-  port: 3000,
+  port: Number(process.env.API_PORT || 3000),
   fetch(request: Request, server: Bun.Server<unknown>) {
     if (
       new URL(request.url).pathname === "/api/admin/notifications/stream" ||

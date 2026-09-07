@@ -1,12 +1,12 @@
 import type { MediaAsset, MediaAssetsResponse } from "@repo/types/admin/media";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState, type ChangeEvent } from "react";
-import { Alert, AlertDescription } from "@repo/ui/components/alert";
-import { Button } from "@repo/ui/components/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@repo/ui/components/dialog";
-import { Input } from "@repo/ui/components/input";
-import { Label } from "@repo/ui/components/label";
-import { toast } from "@repo/ui/components/sonner";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "@/components/ui/sonner";
 import { CopyIcon, ImageIcon, UploadCloudIcon } from "lucide-react";
 import { AdminPagination } from "@/components/admin-pagination";
 import { AdminTableSearch } from "@/components/admin-table-search";

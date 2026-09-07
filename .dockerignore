@@ -13,3 +13,8 @@ packages/*/node_modules
 .env
 .env.*
 !.env.example
+
+.scratch
+**/.output
+**/.nitro
+**/.vite

@@ -2,7 +2,7 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@repo/ui/components/avatar"
+} from "@/components/ui/avatar"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,8 +10,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@repo/ui/components/dropdown-menu"
-import { Button } from "@repo/ui/components/button"
+} from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button"
 import { LogOutIcon } from "lucide-react"
 import { useNavigate } from "@tanstack/react-router"
 import { authClient } from "@/lib/auth-client"

@@ -8,8 +8,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@repo/ui/components/card";
-import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@repo/ui/components/chart";
+} from "@/components/ui/card";
+import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
 import {
   Table,
   TableBody,
@@ -17,8 +17,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@repo/ui/components/table";
-import { Badge } from "@repo/ui/components/badge";
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 import {
   getLeadPriorityVariant,
   getLeadStatusVariant,

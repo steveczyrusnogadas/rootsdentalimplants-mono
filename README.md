@@ -1,4 +1,16 @@
-# baseplate-mono
+# Roots Dental Implant Center
+
+Client homepage built with TanStack Start SSR and Bun. `apps/web` runs independently of the inherited admin/API packages.
+
+```sh
+bun install --frozen-lockfile
+bun run --cwd apps/web dev --port 5373
+```
+
+Deployment: use the root Dockerfile, target `web`, container port `80`. See [Roots deployment guide](docs/roots-deployment.md). Current metadata and robots intentionally prevent indexing pending the final domain and launch approval.
+
+The following sections describe the inherited Baseplate workspace.
+
 
 A TypeScript-first starter monorepo providing a small, deterministic foundation for future apps, packages, and shared tooling.
 
@@ -8,20 +20,20 @@ A TypeScript-first starter monorepo providing a small, deterministic foundation 
 
 | App          | Framework                      | Port   | Description                                                                                                                                    |
 | ------------ | ------------------------------ | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `apps/web`   | Vite + React + TanStack Router | `5173` | Public frontend with blog, contact intake, and theming                                                                                         |
+| `apps/web`   | TanStack Start + React (SSR)   | `5173` | Public frontend with blog, contact intake, and theming                                                                                         |
 | `apps/admin` | Vite + React + TanStack Router | `5000` | Authenticated admin dashboard for users, leads, blog, media, activity, notifications, diagnostics, and settings                                |
 | `apps/api`   | Bun + Hono                     | `3000` | Backend API, Better Auth endpoint, admin routes, public content APIs, rate limits, background jobs, notifications, and health/readiness checks |
 
-`apps/web` and `apps/admin` proxy `/api` requests to `http://localhost:3000` during development.
+Ports shown are defaults. Setup selects coordinated ports per checkout. Admin proxies `/api` to `INTERNAL_API_URL`; public web SSR uses that runtime URL and browser calls use build-time `VITE_API_URL`.
 
 ### Packages
 
-| Package                      | Import        | Description                                                                |
-| ---------------------------- | ------------- | -------------------------------------------------------------------------- |
-| `packages/ui`                | `@repo/ui`    | Shared React components, shadcn/ui components, styles, and theme utilities |
-| `packages/eslint-config`     | —             | Shared ESLint configuration                                                |
-| `packages/typescript-config` | —             | Shared `tsconfig.json` presets                                             |
-| `packages/types`             | `@repo/types` | Shared Zod schemas and TypeScript contracts for API/domain DTOs            |
+| Package                      | Import        | Description                                                                       |
+| ---------------------------- | ------------- | --------------------------------------------------------------------------------- |
+| `packages/ui`                | `@repo/ui`    | Legacy presentation package retained for compatibility; current apps own their UI |
+| `packages/eslint-config`     | —             | Shared ESLint configuration                                                       |
+| `packages/typescript-config` | —             | Shared `tsconfig.json` presets                                                    |
+| `packages/types`             | `@repo/types` | Shared Zod schemas and TypeScript contracts for API/domain DTOs                   |
 
 ### Tech Stack
 
@@ -37,135 +49,40 @@ A TypeScript-first starter monorepo providing a small, deterministic foundation 
 - **AI:** Optional Mastra admin assistant (generic LLM chat in the admin app)
 - **Email:** Resend-backed transactional email helpers for password reset delivery
 - **Admin operations:** Audit trail, realtime notification bell, scoped auth/contact rate limits, resettable demo seed data, and readiness diagnostics
-- **Theming:** Shared light/dark/system theme provider and toggle exported from `@repo/ui`
+- **Theming:** App-owned light/dark/system theme providers, tokens, and toggles
 - **Tooling:** TypeScript, ESLint, Prettier, GitHub Actions CI
 
 ## Local Setup
 
-### Prerequisites
-
-- [Bun](https://bun.sh/) `1.3.11` or later
-
-### Install Dependencies
+Install Bun 1.3.11 and Docker with Compose v2, then run:
 
 ```sh
-bun install
-```
-
-### Configure API Environment
-
-Copy the API example environment file and set the required values:
-
-```sh
-cp apps/api/.env.example apps/api/.env
-```
-
-Required API environment variables:
-
-| Variable                              | Purpose                                                            |
-| ------------------------------------- | ------------------------------------------------------------------ |
-| `DATABASE_URL`                        | PostgreSQL connection string for Drizzle and auth                  |
-| `DATABASE_SSL`                        | Enable SSL for hosted PostgreSQL connections                       |
-| `REDIS_URL`                           | Redis connection string for BullMQ jobs and realtime notifications |
-| `BETTER_AUTH_URL`                     | API origin, usually `http://localhost:3000` locally                |
-| `BETTER_AUTH_SECRET`                  | Better Auth secret for signing auth state                          |
-| `APP_ORIGINS`                         | Comma-separated web/admin origins allowed by CORS                  |
-| `ADMIN_EMAIL`                         | First admin account email for seeding                              |
-| `ADMIN_PASSWORD`                      | First admin account password for seeding                           |
-| `ADMIN_NAME`                          | Optional first admin account display name                          |
-| `S3_ENDPOINT`                         | S3-compatible object storage endpoint                              |
-| `S3_PUBLIC_ENDPOINT`                  | Public S3-compatible endpoint used by browser uploads              |
-| `S3_REGION`                           | S3-compatible object storage region                                |
-| `S3_BUCKET`                           | Bucket used for app-managed uploads                                |
-| `S3_ACCESS_KEY_ID`                    | Object storage access key                                          |
-| `S3_SECRET_ACCESS_KEY`                | Object storage secret key                                          |
-| `S3_FORCE_PATH_STYLE`                 | Use path-style bucket URLs for local MinIO                         |
-| `TRUSTED_PROXY_HEADERS`               | Trust `x-forwarded-for` / `x-real-ip` for rate limits              |
-| `RATE_LIMIT_CONTACT_MAX`              | Optional contact form requests per window                          |
-| `RATE_LIMIT_CONTACT_WINDOW_MS`        | Optional contact form rate limit window                            |
-| `RATE_LIMIT_AUTH_MAX`                 | Optional auth POST requests per window                             |
-| `RATE_LIMIT_AUTH_WINDOW_MS`           | Optional auth rate limit window                                    |
-| `RESEND_API_KEY`                      | Resend API key for transactional email                             |
-| `RESEND_FROM_EMAIL`                   | Sender identity for password reset email                           |
-| `EVENT_WORKER_CONCURRENCY`            | Optional BullMQ event worker concurrency                           |
-| `EMAIL_WORKER_CONCURRENCY`            | Optional BullMQ email worker concurrency                           |
-| `EMAIL_WORKER_RATE_LIMIT_MAX`         | Optional email worker rate limit count                             |
-| `EMAIL_WORKER_RATE_LIMIT_DURATION_MS` | Optional email worker rate limit window                            |
-| `NOTIFICATION_WORKER_CONCURRENCY`     | Optional notification worker concurrency                           |
-| `OPENAI_API_KEY`                      | Optional OpenAI key for the admin assistant                        |
-| `DEMO_PASSWORD`                       | Optional password for seeded demo accounts                         |
-
-Start the local PostgreSQL, Redis, and MinIO services:
-
-```sh
-docker compose up -d postgres redis minio
-```
-
-MinIO exposes its S3-compatible API at `http://localhost:9000` and its console at `http://localhost:9001`.
-Use the credentials from `apps/api/.env.example` locally, and create the `baseplate` bucket before testing avatar or media uploads.
-
-If you previously ran older product-specific schemas, wipe local volumes before migrating:
-
-```sh
-docker compose down -v
-docker compose up -d postgres redis minio
-```
-
-Apply database migrations and seed the first admin account:
-
-```sh
-bun run --filter=api db:migrate
-bun run --filter=api seed:admin
-```
-
-Seed resettable demo users, leads, and blog posts when you want a populated local dashboard:
-
-```sh
-bun run --filter=api seed:demo
-bun run --filter=api db:reset-demo
-```
-
-The demo accounts are `demo.admin@example.com` and `demo.user@example.com`. They use `DEMO_PASSWORD` when set, otherwise `demo-password-123`.
-
-### Start Development
-
-Run all apps in parallel:
-
-```sh
+bun run setup
 bun run dev
 ```
 
-Or run a specific app using a [Turborepo filter](https://turbo.build/repo/docs/crafting-your-repository/running-tasks#using-filters):
+Setup creates a stable per-checkout identity and coordinated available ports,
+starts backing services, migrates the database, and seeds an admin. Bun/Vite run
+the apps on the host. Credentials and selected URLs are saved in the ignored
+root `.env`. Existing configuration is preserved.
 
-```sh
-bun run dev --filter=web
-bun run dev --filter=admin
-bun run dev --filter=app
-bun run dev --filter=api
-```
-
-### Available Root Scripts
-
-| Script        | Command                               | Description                          |
-| ------------- | ------------------------------------- | ------------------------------------ |
-| `build`       | `turbo run build`                     | Build all workspaces                 |
-| `dev`         | `turbo run dev`                       | Run all development servers          |
-| `lint`        | `turbo run lint`                      | Lint all workspaces with ESLint      |
-| `format`      | `prettier --write "**/*.{ts,tsx,md}"` | Format TypeScript and Markdown files |
-| `check-types` | `turbo run check-types`               | Run TypeScript type checks           |
+See [local development](docs/local-development.md) for custom ports, filtered
+commands, external services, and preserving existing volumes before upgrading.
+Run `bun run build`, `bun run check-types`, `bun run lint`, and `bun run test`
+for workspace quality checks; `bun run test:setup` validates local port plumbing.
 
 ## Frontend Data, Forms, and Theme
 
-Both frontend apps use TanStack Query for server state, TanStack Form for interactive forms, and the shared `@repo/ui` theme provider for light/dark mode.
+Both frontend apps use TanStack Query for server state, TanStack Form for interactive forms, and app-owned theme providers for light/dark mode.
 
-- Query providers are mounted in `apps/web/src/main.tsx` and `apps/admin/src/main.tsx`.
-- Theme providers are mounted in `apps/web/src/main.tsx` and `apps/admin/src/main.tsx`.
+- Query providers are mounted through the web Start router/root route and `apps/admin/src/main.tsx`.
+- Theme providers are mounted through the web Start router/root route and `apps/admin/src/main.tsx`.
 - App-local Query clients live in `src/lib/query-client.ts`.
 - App-local API helpers live in `src/lib/api.ts`; the admin helper includes `credentials: "include"` for Better Auth session cookies.
 - Query key factories live in `src/lib/query-keys.ts` and should be used for every query and mutation key.
 - Avoid route-level `fetch` + `useEffect` for API data. Add a query key and use `useQuery`/`useMutation` instead.
 - Use TanStack Form for route forms, with field validators and `form.Subscribe` for submit state.
-- Use `ThemeToggle` from `@repo/ui/components/theme-toggle` inside app shells instead of creating app-local theme switches.
+- Use each app’s `@/components/ui/theme-toggle`. Styled primitives, global CSS, theme tokens, and `components.json` belong to their app so client branding can change independently. See [ADR-0005](docs/adr/0005-app-owned-presentation.md).
 
 ## Blog and Media
 
@@ -218,8 +135,7 @@ bun run build --filter=web
 ### Dokploy Deployment
 
 Use `docker-compose.prod.yml` for Dokploy deployments. The production setup builds
-the API and both frontend apps from the monorepo, serves the frontend apps as
-static nginx sites, and runs Postgres and MinIO with persistent volumes.
+the API and both frontend apps from the monorepo, serves web through TanStack Start SSR and admin through static nginx, and runs Postgres and MinIO with persistent volumes.
 
 See [DOKPLOY.md](DOKPLOY.md) for required domains, environment variables,
 migrations, seeding, and smoke tests.

@@ -9,14 +9,14 @@ import {
 } from "@tanstack/react-table";
 import type { AdminAuditEvent, AdminAuditEventsResponse } from "@repo/types/admin/activity";
 import { useEffect, useMemo, useState } from "react";
-import { Badge } from "@repo/ui/components/badge";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@repo/ui/components/card";
+} from "@/components/ui/card";
 import { AdminDataTable } from "@/components/admin-data-table";
 import { AdminPagination } from "@/components/admin-pagination";
 import { AdminSortableHeader } from "@/components/admin-sortable-header";

@@ -159,11 +159,13 @@ describe("blogPostQuery", () => {
   test("surfaces a 404 when Hono has no published post for the slug", async () => {
     delete process.env.INTERNAL_API_URL;
 
-    globalThis.fetch = (async () =>
-      new Response(JSON.stringify({ error: "Blog post not found." }), {
+    globalThis.fetch = (async (input: RequestInfo | URL) => {
+      expect(String(input)).toBe("http://localhost:3000/api/blog/missing-slug");
+      return new Response(JSON.stringify({ error: "Blog post not found." }), {
         status: 404,
         headers: { "Content-Type": "application/json" },
-      })) as typeof fetch;
+      });
+    }) as typeof fetch;
 
     try {
       await blogPostQuery("missing-slug").queryFn();

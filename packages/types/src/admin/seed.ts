@@ -4,7 +4,6 @@ export const demoSeedResultSchema = z.object({
   users: z.number(),
   leads: z.number(),
   blogPosts: z.number(),
-  locations: z.number(),
   reset: z.boolean(),
 });
 

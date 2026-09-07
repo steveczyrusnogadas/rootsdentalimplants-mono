@@ -10,6 +10,9 @@ import { getAdminSettings } from "./settings/admin-settings";
 
 export const auth = betterAuth({
   appName: "Baseplate",
+  advanced: {
+    cookiePrefix: process.env.BETTER_AUTH_COOKIE_PREFIX || "better-auth",
+  },
   database: drizzleAdapter(db, {
     provider: "pg",
     schema,

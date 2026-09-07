@@ -1,7 +1,9 @@
 import type { PublicBlogPostResponse } from "@repo/types/blog";
 import { resolveApiUrl } from "./api";
 
-export function blogPostHead({ loaderData }: { loaderData: PublicBlogPostResponse }) {
+export function blogPostHead({ loaderData }: { loaderData?: PublicBlogPostResponse }) {
+  if (!loaderData) return { meta: [] };
+
   const title = loaderData.post.seoTitle ?? loaderData.post.title;
   const description = loaderData.post.seoDescription ?? loaderData.post.excerpt;
 

@@ -1,6 +1,6 @@
 # Deploying To Dokploy
 
-This repo deploys cleanly as a single Dokploy Docker Compose app using
+This repo provides a single Dokploy Docker Compose configuration using
 `docker-compose.prod.yml`.
 
 ## Services
@@ -18,14 +18,21 @@ This repo deploys cleanly as a single Dokploy Docker Compose app using
 1. Create a new project in Dokploy.
 2. Add a Docker Compose app from this Git repository.
 3. Set the compose file path to `docker-compose.prod.yml`.
-4. Add domains in Dokploy:
+4. Enable **Isolated Deployments** in the Compose app's Advanced settings.
+   Keep Dokploy's unique Compose project identity stable. The file intentionally
+   has no global `name`, `container_name`, or shared `dokploy-network` attachment.
+   Dokploy attaches its proxy to the isolated application network. Do not deploy
+   this configuration with isolation disabled without reviewing routing/network
+   configuration. See [Dokploy isolated deployments](https://docs.dokploy.com/docs/core/docker-compose/utilities)
+   and [domain routing](https://docs.dokploy.com/docs/core/docker-compose/domains).
+5. Add domains in Dokploy:
    - `web` on port `80`, for example `https://example.com`.
    - `admin` on port `80`, for example `https://admin.example.com`.
    - `api` on port `3000`, for example `https://api.example.com`.
    - `minio` on port `9000`, for example `https://s3.example.com`.
    - Optional: `minio` on port `9001`, for example `https://minio.example.com`, for the MinIO console.
-5. Keep `postgres` private. Do not attach a public domain to it.
-6. Redeploy the Compose app after adding or changing domains so Dokploy regenerates the Traefik labels.
+6. Keep `postgres` private. Do not attach a public domain to it.
+7. Redeploy the Compose app after adding or changing domains so Dokploy regenerates the Traefik labels.
 
 The MinIO API domain is required because the admin UI uploads directly to
 presigned S3 URLs returned by the API.
@@ -85,6 +92,11 @@ rate limits use the real client IP from forwarded headers. The `RATE_LIMIT_*`
 values are optional tuning knobs; the defaults shown above match the app
 defaults.
 
+`BETTER_AUTH_COOKIE_PREFIX` optionally isolates cookies when deployments share a
+hostname; its default `better-auth` preserves existing sessions. Changing it
+requires users to sign in again. Independent client domains already isolate
+cookies by hostname.
+
 `INTERNAL_API_URL=http://api:3000` is set on the `web` Compose service at runtime so SSR loaders can reach Hono over Docker DNS. Do not add it as a Vite `VITE_*` build arg. Browser blog/contact calls still use `VITE_API_URL`.
 
 ## First Deploy
@@ -110,3 +122,42 @@ for this service to finish successfully before it starts.
 - Log in through the admin domain.
 - Upload an avatar or media image to verify the public MinIO API domain and CORS are correct.
 - Publish a blog post with an image and verify it renders through the public web app.
+
+## Isolation and existing data
+
+Every client deployment needs its own Dokploy Compose app/project identity,
+domains, secrets, and volumes. Internal names `api`, `postgres`, `redis`, and
+`minio` resolve within that application's isolated network. No host ports are
+published. Isolated deployment behavior and routing must be checked against the
+installed Dokploy version; this repository change is not a verified live fix.
+
+Before upgrading an existing deployment, inspect the current containers' mounts
+and Compose project labels and take backups. Older configurations forced the
+`baseplate` identity and used `baseplate_postgres_data`, `baseplate_redis_data`,
+and `baseplate_minio_data`. Dokploy may have overridden that identity: record the
+actual volume names. Removing the fixed name can otherwise select fresh empty
+volumes. Preserve the existing effective project identity, explicitly map the
+old volumes with a reviewed external-volume override, or restore backups into
+the new project. Never delete volumes or run two database containers on one
+volume during migration. See [local data preservation](docs/local-development.md#existing-local-data).
+
+## Runtime checks
+
+`VITE_API_URL` is baked into browser assets and requires a rebuild when changed.
+`INTERNAL_API_URL` is read when SSR requests run and can change at runtime without
+rebuilding. Web waits for API liveness at startup. Its own healthcheck fetches
+`/healthz.txt`, a static response independent of API/database availability.
+A healthy web process does not establish that blog SSR works: verify both API
+`/ready` and the API-backed HTML routes in the smoke tests above.
+
+After deploying, inspect from the web service terminal:
+
+```sh
+bun -e 'const r = await fetch(process.env.INTERNAL_API_URL + "/health"); console.log(r.status, await r.text()); if (!r.ok) process.exit(1)'
+```
+
+Inspect the generated Compose configuration and network memberships for two
+client deployments: each app must use its own database/Redis/MinIO and the proxy
+must reach the selected application network. Check public domains, auth, uploads,
+and rendered HTML before declaring the deployment healthy. Collect service and
+proxy logs if these checks fail. No live deployment has been tested by this change.

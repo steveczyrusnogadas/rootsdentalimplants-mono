@@ -2,6 +2,7 @@ import "dotenv/config";
 import { eq } from "drizzle-orm";
 import { db } from "./client";
 import { user } from "./schema";
+import { closeQueues } from "../jobs/queues";
 import { createCredentialUser } from "../shared/create-credential-user";
 
 const adminEmail = process.env.ADMIN_EMAIL;
@@ -42,7 +43,11 @@ async function main() {
   console.log(`Created admin account ${adminEmail}.`);
 }
 
-main().catch((error: unknown) => {
-  console.error(error);
-  process.exit(1);
-});
+main()
+  .finally(async () => {
+    await Promise.all([closeQueues(), db.$client.end()]);
+  })
+  .catch((error: unknown) => {
+    console.error(error);
+    process.exitCode = 1;
+  });

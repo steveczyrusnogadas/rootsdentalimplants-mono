@@ -8,13 +8,6 @@
       "when": 1784892865866,
       "tag": "0000_flaky_vulture",
       "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1787150180843,
-      "tag": "0001_true_molten_man",
-      "breakpoints": true
     }
   ]
 }

@@ -1,10 +1,10 @@
 import { createRootRoute, Link, Outlet, redirect, useRouterState } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Button } from "@repo/ui/components/button";
-import { SidebarProvider, SidebarTrigger, SidebarInset } from "@repo/ui/components/sidebar";
-import { ThemeToggle } from "@repo/ui/components/theme-toggle";
-import { Toaster } from "@repo/ui/components/sonner";
-import { TooltipProvider } from "@repo/ui/components/tooltip";
+import { Button } from "@/components/ui/button";
+import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { AdminChatWidget } from "@/components/admin-chat-widget";
 import { AdminBreadcrumbs } from "@/components/admin-breadcrumbs";
 import { AdminNotificationBell } from "@/components/admin-notification-bell";

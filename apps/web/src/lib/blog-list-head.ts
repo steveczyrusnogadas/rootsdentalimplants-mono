@@ -1,6 +1,6 @@
 import type { PublicBlogPostsResponse } from "@repo/types/blog";
 
-export function blogListHead({ loaderData }: { loaderData: PublicBlogPostsResponse }) {
+export function blogListHead({ loaderData }: { loaderData?: PublicBlogPostsResponse }) {
   void loaderData;
 
   return {

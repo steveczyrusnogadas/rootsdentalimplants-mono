@@ -7,7 +7,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@repo/ui/components/breadcrumb";
+} from "@/components/ui/breadcrumb";
 import { adminApi } from "@/lib/api";
 import type { AdminBlogPostResponse } from "@repo/types/admin/blog";
 import type { LeadResponse } from "@/lib/admin-leads";

@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Superseded for visual ownership by [ADR 0005](0005-app-owned-presentation.md). The initial new-york appearance remains unchanged.
 
 ## Context
 

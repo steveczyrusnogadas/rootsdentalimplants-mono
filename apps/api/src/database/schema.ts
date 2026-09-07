@@ -1,7 +1,5 @@
-import { boolean, doublePrecision, index, integer, jsonb, pgTable, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
+import { boolean, index, integer, jsonb, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import type { BlogContent } from "@repo/types/admin/blog";
-import type { WeeklyHours } from "@repo/types/location";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -190,35 +188,6 @@ export const adminAuditEvent = pgTable("admin_audit_event", {
   metadata: jsonb("metadata").$type<Record<string, unknown>>().notNull(),
   createdAt: timestamp("created_at").notNull(),
 });
-
-export const location = pgTable(
-  "location",
-  {
-    id: text("id").primaryKey(),
-    slug: text("slug").notNull().unique(),
-    displayName: text("display_name").notNull(),
-    street: text("street").notNull(),
-    suite: text("suite"),
-    city: text("city").notNull(),
-    region: text("region").notNull(),
-    postalCode: text("postal_code").notNull(),
-    phone: text("phone").notNull(),
-    weeklyHours: jsonb("weekly_hours").$type<WeeklyHours>().notNull(),
-    lat: doublePrecision("lat").notNull(),
-    lng: doublePrecision("lng").notNull(),
-    sortOrder: integer("sort_order").notNull(),
-    published: boolean("published").notNull().default(true),
-    isDefaultCall: boolean("is_default_call").notNull().default(false),
-    createdAt: timestamp("created_at").notNull(),
-    updatedAt: timestamp("updated_at").notNull(),
-  },
-  (table) => [
-    uniqueIndex("location_one_default_call")
-      .on(table.isDefaultCall)
-      .where(sql`${table.isDefaultCall} = true`),
-    index("location_sort_order_idx").on(table.sortOrder),
-  ],
-);
 
 export const chatSession = pgTable("chat_session", {
   id: text("id").primaryKey(),

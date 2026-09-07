@@ -8,7 +8,8 @@ import { defineConfig } from "vite";
 export default defineConfig({
   plugins: [tailwindcss(), tanstackStart(), viteReact(), nitro({ preset: "bun" })],
   server: {
-    port: 5173,
+    port: Number(process.env.WEB_PORT || 5173),
+    strictPort: true,
   },
   resolve: {
     alias: {

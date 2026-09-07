@@ -3,7 +3,7 @@ import {
   unstable_memoizeMarkdownComponents as memoizeMarkdownComponents,
   useIsMarkdownCodeBlock,
 } from "@assistant-ui/react-markdown";
-import { cn } from "@repo/ui/lib/utils";
+import { cn } from "@/lib/utils";
 import { memo } from "react";
 import remarkGfm from "remark-gfm";
 
