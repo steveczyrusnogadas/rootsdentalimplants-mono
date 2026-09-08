@@ -1,0 +1,49 @@
+.control {
+  position: fixed;
+  z-index: 30;
+  right: max(24px, env(safe-area-inset-right, 0px));
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid var(--line, #b2cab7);
+  border-radius: 50%;
+  background: var(--forest, #485f4f);
+  color: #fff;
+  box-shadow: 0 4px 16px #243d2c24;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+@media (hover: hover) {
+  .control:hover {
+    background: #3b5844;
+    transform: translateY(-2px);
+  }
+}
+
+.control:focus-visible {
+  outline: 3px solid #435558;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 4px #fff;
+}
+
+@media (max-width: 760px) {
+  .control {
+    right: max(16px, env(safe-area-inset-right, 0px));
+    /* Reserve room for bottom booking controls, including the device safe area.
+       The public layout can override this variable if its controls are taller. */
+    bottom: calc(var(--back-to-top-mobile-offset, 88px) + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .control {
+    transition: none;
+    transform: none;
+  }
+}

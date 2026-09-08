@@ -2141,3 +2141,81 @@ html {
   }
   .questions-section > .patient-notice { grid-column: auto; padding: 24px; }
 }
+
+/* Scale the composition together on large displays; keep reading measures bounded. */
+@media (min-width: 1600px) {
+  :root {
+    --wide-unit: clamp(1px, 0.06vw, 2px);
+    --page-gutter: max(6vw, calc((100vw - 3200px) / 2));
+  }
+  .site-header, .hero, .section-pad, .conversation-band, .care-values, .site-footer {
+    padding-left: var(--page-gutter);
+    padding-right: var(--page-gutter);
+  }
+  .section-pad { padding-block: calc(100 * var(--wide-unit)); }
+  .site-header { height: calc(100 * var(--wide-unit)); }
+  html { scroll-padding-top: calc(105 * var(--wide-unit)); }
+  .brand img { width: calc(176 * var(--wide-unit)); }
+  .desktop-nav { gap: calc(30 * var(--wide-unit)); }
+  .hero { padding-bottom: calc(36 * var(--wide-unit)); }
+  .hero-copy { padding: calc(58 * var(--wide-unit)) calc(45 * var(--wide-unit)) calc(50 * var(--wide-unit)) 0; }
+  .hero h1 { font-size: calc(68 * var(--wide-unit)); }
+  h2 { font-size: calc(60 * var(--wide-unit)); }
+  .hero-description { max-width: 36ch; }
+  .hero-description, .team-introduction p, .treatment-description > p,
+  .patient-story-copy > p:not(.eyebrow), .conversation-band p:not(.eyebrow),
+  .questions-list details > p, .questions-section > .patient-notice p {
+    font-size: calc(15 * var(--wide-unit));
+  }
+  .eyebrow, .care-values > .eyebrow, .conversation-aside > span {
+    font-size: calc(10 * var(--wide-unit));
+  }
+  .desktop-nav, .button, .hero-actions .button, .text-link, .results-cta .button, .footer-consultation .button {
+    font-size: calc(12 * var(--wide-unit));
+  }
+  .button, .hero-actions .button { padding: calc(15 * var(--wide-unit)) calc(18 * var(--wide-unit)); gap: calc(18 * var(--wide-unit)); }
+  a svg, button svg { width: calc(20 * var(--wide-unit)); height: calc(20 * var(--wide-unit)); }
+  .care-values { padding-block: calc(36 * var(--wide-unit)); gap: calc(28 * var(--wide-unit)); }
+  .care-values > .eyebrow { max-width: 15ch; }
+  .care-values h2 { font-size: calc(14 * var(--wide-unit)); }
+  .care-values p:not(.eyebrow) { font-size: calc(13 * var(--wide-unit)); max-width: 32ch; }
+  .care-intro, .results-heading { margin-bottom: calc(48 * var(--wide-unit)); }
+  .treatment-note { min-height: calc(370 * var(--wide-unit)); padding: calc(32 * var(--wide-unit)); }
+  .treatment-note h3, .patient-story-copy h3, .results-cta > p { font-size: calc(32 * var(--wide-unit)); }
+  .treatment-note p { font-size: calc(13 * var(--wide-unit)); }
+  .treatment-note > .sprig { width: calc(350 * var(--wide-unit)); height: calc(180 * var(--wide-unit)); right: calc(-140 * var(--wide-unit)); }
+  .treatment-trigger { font-size: calc(22 * var(--wide-unit)); padding-block: calc(25 * var(--wide-unit)); }
+  .care-caption, .results-note, .booking-note { font-size: calc(11 * var(--wide-unit)); }
+  .conversation-band { padding-block: calc(70 * var(--wide-unit)); }
+  .conversation-band h2 { font-size: calc(54 * var(--wide-unit)); }
+  .conversation-aside { padding-left: calc(45 * var(--wide-unit)); }
+  .team-introduction { max-width: 58ch; font-size: calc(15 * var(--wide-unit)); }
+  .team-portraits { gap: calc(30 * var(--wide-unit)); margin-top: calc(50 * var(--wide-unit)); }
+  .person-1 { padding-top: calc(65 * var(--wide-unit)); }
+  .person h3 { font-size: calc(20 * var(--wide-unit)); }
+  .person p { font-size: calc(12 * var(--wide-unit)); }
+  .comparison-photos span, .story-play small { font-size: calc(11 * var(--wide-unit)); }
+  .story-play > span:nth-child(2) { font-size: calc(24 * var(--wide-unit)); }
+  .patient-story, .results-gallery { gap: calc(30 * var(--wide-unit)); }
+  .reviews-section { padding-block: calc(70 * var(--wide-unit)); }
+  .reviews-heading h2 { font-size: calc(40 * var(--wide-unit)); }
+  .review-quotes blockquote > p { font-size: calc(28 * var(--wide-unit)); max-width: 24ch; }
+  .review-quotes footer { font-size: calc(12 * var(--wide-unit)); }
+  .review-quotes footer small { font-size: calc(10 * var(--wide-unit)); }
+  .questions-section h2 { font-size: calc(48 * var(--wide-unit)); }
+  .questions-list summary, .patient-notice h3 { font-size: calc(17 * var(--wide-unit)); }
+  .questions-list summary { padding-block: calc(25 * var(--wide-unit)); }
+  .questions-list details > p { max-width: 60ch; }
+  .questions-section > .patient-notice { padding: calc(24 * var(--wide-unit)) calc(28 * var(--wide-unit)); }
+  .locations-heading > .sprig { width: calc(320 * var(--wide-unit)); flex-basis: calc(320 * var(--wide-unit)); }
+  .location-row { padding-block: calc(27 * var(--wide-unit)); }
+  .location-name h3 { font-size: calc(30 * var(--wide-unit)); }
+  .location-name small { font-size: calc(9 * var(--wide-unit)); }
+  .location-row > p, .location-phone, .location-book { font-size: calc(13 * var(--wide-unit)); }
+  .site-footer { padding-top: calc(68 * var(--wide-unit)); padding-bottom: calc(25 * var(--wide-unit)); }
+  .footer-brand img { width: calc(210 * var(--wide-unit)); }
+  .footer-brand p, .footer-grid nav a, .footer-consultation p { font-size: calc(13 * var(--wide-unit)); }
+  .footer-grid nav h2 { font-size: calc(14 * var(--wide-unit)); }
+  .footer-consultation h2 { font-size: calc(31 * var(--wide-unit)); }
+  .footer-bottom, .footer-bottom .back-top { font-size: calc(11 * var(--wide-unit)); }
+}

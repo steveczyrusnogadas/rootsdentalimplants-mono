@@ -1,48 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowUpRight, Menu, Plus, X } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Plus } from "lucide-react";
 
-const locations = [
-  {
-    name: "Portland",
-    state: "OR",
-    address: "4224 NE Halsey St #330",
-    zip: "Portland, OR 97213",
-    phone: "503-647-6135",
-    id: "38546",
-  },
-  {
-    name: "Gresham",
-    state: "OR",
-    address: "22400 SE Stark St, Suite 103",
-    zip: "Gresham, OR 97030",
-    phone: "503-512-6184",
-    id: "38552",
-  },
-  {
-    name: "Troutdale",
-    state: "OR",
-    address: "191 E Historic Columbia River Hwy",
-    zip: "Troutdale, OR 97060",
-    phone: "503-855-6792",
-    id: "38541",
-  },
-  {
-    name: "Salem",
-    state: "OR",
-    address: "2510 12th St SE",
-    zip: "Salem, OR 97302",
-    phone: "503-506-6339",
-    id: "38526",
-  },
-  {
-    name: "Vancouver",
-    state: "WA",
-    address: "16600 SE 15th St",
-    zip: "Vancouver, WA 98683",
-    phone: "360-310-4683",
-    id: "77842",
-  },
-];
+import { MembershipPrices, ClinicIntroduction } from "@/components/homepage-experiment";
+import { providers } from "@/content/pages";
+import { locations } from "@/content/locations";
+import { SiteHeader, SiteFooter } from "@/components/site-shell";
 
 function Sprig({
   className = "",
@@ -62,7 +24,6 @@ function Sprig({
 }
 
 function App() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [activeTreatment, setActiveTreatment] = useState<number | null>(0);
   const heroVideo = useRef<HTMLVideoElement>(null);
   const [playingStory, setPlayingStory] = useState(false);
@@ -102,55 +63,7 @@ function App() {
 
   return (
     <>
-      <a className="skip-link" href="#main">
-        Skip to content
-      </a>
-      <header className="site-header">
-        <a href="/" className="brand" aria-label="Roots Dental Implant Center home">
-          <img src="/images/logo.png" width="1040" height="461" alt="Roots Dental Implant Center" />
-        </a>
-        <nav className="desktop-nav" aria-label="Main navigation">
-          <a href="#care">Treatments</a>
-          <a href="#team">Our doctors</a>
-          <a href="#questions">FAQs</a>
-          <a href="#locations">Locations</a>
-        </nav>
-        <a href="#locations" className="button header-book">
-          Let’s talk <ArrowUpRight size={17} />
-        </a>
-        <button
-          className="menu-toggle"
-          type="button"
-          aria-label={menuOpen ? "Close navigation" : "Open navigation"}
-          aria-expanded={menuOpen}
-          aria-controls="mobile-navigation"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          {menuOpen ? <X /> : <Menu />}
-        </button>
-        {menuOpen && (
-          <nav
-            id="mobile-navigation"
-            className="mobile-nav"
-            aria-label="Mobile navigation"
-            onKeyDown={(event) => {
-              if (event.key === "Escape") setMenuOpen(false);
-            }}
-          >
-            {[
-              ["Treatments", "care"],
-              ["Our doctors", "team"],
-              ["FAQs", "questions"],
-              ["Find your location", "locations"],
-            ].map(([title, id]) => (
-              <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>
-                {title}
-                <ArrowUpRight size={18} />
-              </a>
-            ))}
-          </nav>
-        )}
-      </header>
+      <SiteHeader />
 
       <main id="main">
         <section className="hero" aria-labelledby="hero-title">
@@ -337,6 +250,7 @@ function App() {
               </div>
             </div>
           </div>
+          <MembershipPrices />
         </section>
 
         <section className="conversation-band">
@@ -372,42 +286,42 @@ function App() {
           </div>
         </section>
 
+        <ClinicIntroduction />
+
         <section id="team" className="team-section section-pad">
           <div className="team-heading reveal">
             <p className="eyebrow">YOUR ROOTS TEAM</p>
             <h2>
               Meet
               <br />
-              <em>our doctors.</em>
+              <em>our care team.</em>
             </h2>
             <div className="team-introduction">
               <p>
-                Our team combines advanced technology with personalized care. Meet a few of the people behind Roots
-                before you step through the door.
+                Our team combines advanced technology with personalized care. Meet the seven people behind Roots before
+                you step through the door.
               </p>
               <a href="#locations" className="text-link">
                 Plan your visit <ArrowUpRight size={18} />
               </a>
             </div>
           </div>
-          <div className="team-portraits">
-            {[
-              { name: "Clark Brinton", image: "brinton", slug: "dr-clark-brinton" },
-              { name: "Seth Huish", image: "huish", slug: "dr-seth-huish" },
-              { name: "Jonathan Gold", image: "gold", slug: "dr-jonathan-gold" },
-            ].map((person, i) => (
-              <article className={`person person-${i} reveal`} key={person.name}>
-                <div className="portrait-frame">
-                  <img
-                    src={`/images/${person.image}.jpg`}
-                    alt={`Dr. ${person.name}`}
-                    width="650"
-                    height="650"
-                    loading="lazy"
-                  />
-                </div>
-                <h3>Dr. {person.name}</h3>
-                <p>DMD</p>
+          <div className="experiment-team-grid">
+            {providers.map((person) => (
+              <article className="experiment-person reveal" key={person.slug}>
+                <a href={`/${person.slug}/`} aria-label={`View ${person.title}’s profile`}>
+                  <div className="experiment-portrait">
+                    <img src={person.image} alt={person.imageAlt} width="650" height="650" loading="lazy" />
+                    <span className="portrait-arrow" aria-hidden="true">
+                      <ArrowUpRight size={18} />
+                    </span>
+                  </div>
+                  <h3>{person.title}</h3>
+                  <p>{person.slug === "adam-kearns" ? "MS CRNA · Nurse anesthetist" : "DMD · General dentist"}</p>
+                  <span className="experiment-profile-link">
+                    View profile <ArrowUpRight size={14} />
+                  </span>
+                </a>
               </article>
             ))}
           </div>
@@ -615,53 +529,7 @@ function App() {
         </section>
       </main>
 
-      <footer className="site-footer">
-        <div className="footer-grid">
-          <div className="footer-brand">
-            <a href="/" aria-label="Roots Dental Implant Center home">
-              <img src="/images/logo.png" width="1040" height="461" alt="Roots Dental Implant Center" />
-            </a>
-            <p>
-              Personalized implant care.
-              <br />
-              Rooted in Oregon & Washington.
-            </p>
-          </div>
-          <nav aria-label="Footer implant care">
-            <h2>Explore Roots</h2>
-            <a href="#care">Dental implant treatments</a>
-            <a href="#results">Patient results</a>
-            <a href="#team">Meet our doctors</a>
-            <a href="#questions">Frequently asked questions</a>
-          </nav>
-          <nav aria-label="Footer visit planning">
-            <h2>Plan your visit</h2>
-            <a href="#locations">Find your location</a>
-            <a href="#locations">
-              Book a consultation <ArrowUpRight size={13} />
-            </a>
-            <a href="mailto:implants@rootsdental.com">
-              Contact our team <ArrowUpRight size={13} />
-            </a>
-            <a href="mailto:implants@rootsdental.com">implants@rootsdental.com</a>
-          </nav>
-          <div className="footer-consultation">
-            <h2>Let’s talk about your smile.</h2>
-            <p>Start with a conversation at your nearest Roots Implant Center.</p>
-            <a className="button" href="#locations">
-              Book a consultation <ArrowUpRight size={18} />
-            </a>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} Roots Dental Implant Center</span>
-          <div>
-            <a className="back-top" href="#main">
-              Back to top <ArrowUpRight size={15} />
-            </a>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

@@ -1,0 +1,317 @@
+/* Isolated homepage additions. Existing hero styles remain untouched. */
+.membership-prices {
+  margin-top: 64px;
+  padding: 32px 0 0;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 28px;
+}
+.membership-heading h3 {
+  font:
+    400 27px/1.2 Georgia,
+    serif;
+  letter-spacing: -0.025em;
+  margin: 12px 0;
+}
+.membership-heading h3 em {
+  font-size: 0.85em;
+}
+.membership-price {
+  border-left: 1px solid var(--line);
+  padding-left: 28px;
+}
+.membership-price h4 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 550;
+}
+.price-amount {
+  font:
+    400 42px/1.15 Georgia,
+    serif;
+  letter-spacing: -0.035em;
+}
+.price-amount span {
+  display: block;
+  font:
+    12px/1.6 "Noto Sans Variable",
+    sans-serif;
+  letter-spacing: 0;
+  margin-bottom: 4px;
+}
+.membership-price > p:last-child {
+  font-size: 12px;
+  margin-top: 8px;
+}
+.membership-conditions {
+  grid-column: 1 / -1;
+  font-size: 12px;
+  max-width: 95ch;
+  line-height: 1.8;
+}
+.membership-conditions p + p {
+  margin-top: 6px;
+}
+.clinic-introduction {
+  display: grid;
+  grid-template-columns: 36% 1fr;
+  align-items: center;
+  gap: 7%;
+  border-bottom: 1px solid var(--line);
+}
+.clinic-introduction h2 {
+  margin: 18px 0 24px;
+}
+.clinic-introduction-copy > p:not(.eyebrow) {
+  font-size: 14px;
+  line-height: 1.9;
+  max-width: 38ch;
+}
+.clinic-introduction-copy .text-link {
+  margin-top: 18px;
+}
+.clinic-film {
+  aspect-ratio: 16/9;
+  background: var(--forest);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.clinic-film iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.clinic-film-play {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  padding: 0;
+  border: 0;
+  color: white;
+  text-align: left;
+  background: var(--forest);
+}
+.clinic-film-play > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.clinic-film-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  padding: 26px;
+  background: linear-gradient(transparent 30%, #15261fe8);
+  font:
+    27px/1.2 Georgia,
+    serif;
+}
+.clinic-film-label small {
+  display: block;
+  font:
+    11px/1.6 "Noto Sans Variable",
+    sans-serif;
+  margin-top: 7px;
+}
+.clinic-play-icon {
+  align-self: flex-end;
+  width: 48px;
+  height: 48px;
+  border: 1px solid #ffffffa0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.clinic-film-play:hover .clinic-play-icon {
+  background: #ffffff30;
+}
+.clinic-close-video {
+  background: none;
+  border: 0;
+  padding: 8px 0;
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+  text-decoration: underline;
+}
+.clinic-interview {
+  margin-top: 18px;
+  padding: 18px 0 0;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.clinic-interview-icon {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  background: var(--soft);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.clinic-interview > span:nth-child(2) {
+  flex: 1;
+}
+.clinic-interview strong,
+.clinic-interview small {
+  display: block;
+}
+.clinic-interview strong {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 3px;
+}
+.clinic-interview small {
+  font-size: 11px;
+  margin-top: 3px;
+}
+.clinic-interview:hover strong {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.experiment-team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 34px 24px;
+  margin-top: 42px;
+}
+.experiment-portrait {
+  position: relative;
+  overflow: hidden;
+  background: var(--soft);
+  border-radius: 4px;
+}
+.experiment-portrait img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s;
+}
+.experiment-person a:hover img {
+  transform: scale(1.025);
+}
+.experiment-person h3 {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  margin: 14px 0 4px;
+}
+.experiment-person p {
+  font-size: 11px;
+}
+.experiment-profile-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  margin-top: 9px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+@media (min-width: 1800px) {
+  .membership-prices {
+    margin-top: calc(64 * var(--wide-unit));
+    gap: calc(28 * var(--wide-unit));
+  }
+  .membership-heading h3 {
+    font-size: calc(27 * var(--wide-unit));
+  }
+  .price-amount {
+    font-size: calc(42 * var(--wide-unit));
+  }
+  .membership-price h4,
+  .clinic-interview strong {
+    font-size: calc(14 * var(--wide-unit));
+  }
+  .membership-conditions,
+  .membership-price > p:last-child,
+  .price-amount span {
+    font-size: calc(12 * var(--wide-unit));
+  }
+  .clinic-introduction-copy > p:not(.eyebrow) {
+    font-size: calc(15 * var(--wide-unit));
+  }
+  .clinic-film-label {
+    font-size: calc(27 * var(--wide-unit));
+    padding: calc(26 * var(--wide-unit));
+  }
+  .clinic-film-label small,
+  .clinic-interview small,
+  .experiment-person p,
+  .experiment-profile-link {
+    font-size: calc(11 * var(--wide-unit));
+  }
+  .experiment-person h3 {
+    font-size: calc(17 * var(--wide-unit));
+  }
+  .experiment-team-grid {
+    gap: calc(34 * var(--wide-unit)) calc(24 * var(--wide-unit));
+  }
+}
+@media (max-width: 900px) {
+  .membership-prices {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .membership-heading {
+    grid-column: 1 / -1;
+  }
+  .membership-price {
+    padding-left: 0;
+    border-left: 0;
+  }
+  .clinic-introduction {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .clinic-introduction-copy > p:not(.eyebrow) {
+    max-width: 55ch;
+  }
+  .experiment-team-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .membership-prices {
+    margin-top: 40px;
+    gap: 24px 18px;
+  }
+  .membership-heading h3 {
+    font-size: 26px;
+  }
+  .price-amount {
+    font-size: 36px;
+  }
+  .membership-price > p:last-child {
+    max-width: 18ch;
+  }
+  .clinic-film-label {
+    padding: 16px;
+    font-size: 23px;
+    gap: 12px;
+  }
+  .clinic-film-label small {
+    font-size: 10px;
+  }
+  .clinic-play-icon {
+    width: 38px;
+    height: 38px;
+  }
+  .experiment-team-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 16px;
+    margin-top: 30px;
+  }
+  .experiment-person h3 {
+    font-size: 15px;
+  }
+}

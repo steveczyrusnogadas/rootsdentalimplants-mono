@@ -1,0 +1,42 @@
+export const locations = [
+  {
+    name: "Portland",
+    state: "OR",
+    address: "4224 NE Halsey St #330",
+    zip: "Portland, OR 97213",
+    phone: "503-647-6135",
+    id: "38546",
+  },
+  {
+    name: "Gresham",
+    state: "OR",
+    address: "22400 SE Stark St, Suite 103",
+    zip: "Gresham, OR 97030",
+    phone: "503-512-6184",
+    id: "38552",
+  },
+  {
+    name: "Troutdale",
+    state: "OR",
+    address: "191 E Historic Columbia River Hwy",
+    zip: "Troutdale, OR 97060",
+    phone: "503-855-6792",
+    id: "38541",
+  },
+  {
+    name: "Salem",
+    state: "OR",
+    address: "2510 12th St SE",
+    zip: "Salem, OR 97302",
+    phone: "503-506-6339",
+    id: "38526",
+  },
+  {
+    name: "Vancouver",
+    state: "WA",
+    address: "16600 SE 15th St",
+    zip: "Vancouver, WA 98683",
+    phone: "360-310-4683",
+    id: "77842",
+  },
+];
