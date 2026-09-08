@@ -414,7 +414,7 @@ const otherPages: Page[] = [
     kind: "stories",
     eyebrow: "PATIENT EXPERIENCES",
     title: "In their own words.",
-    description: "Hear from a Roots patient and read experiences shared about care and communication.",
+    description: "Hear patient stories and read experiences shared about care and communication.",
   },
   {
     slug: "contact-us",

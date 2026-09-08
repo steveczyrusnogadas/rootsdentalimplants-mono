@@ -1,9 +1,10 @@
-import { useState } from "react";
 import { ArrowUpRight, Plus } from "lucide-react";
 import { SiteHeader, SiteFooter } from "./site-shell";
 import { EligibilityQuiz, PreviewForm } from "./preview-forms";
 import { events, faqs, providers, treatments, type Page } from "@/content/pages";
 import { locations } from "@/content/locations";
+import { PatientStories } from "./patient-stories";
+import { LocationsMap } from "./locations-map";
 
 const hours: Record<string, string> = {
   Portland: "Monday–Thursday · 8 AM–5 PM",
@@ -243,40 +244,9 @@ function Gallery() {
 }
 
 function Stories() {
-  const [playing, setPlaying] = useState(false);
   return (
     <>
-      <section className="inner-section story-feature">
-        <div>
-          <p className="eyebrow">MEET CRYSTAL</p>
-          <h2>
-            A story
-            <br />
-            <em>in her words.</em>
-          </h2>
-          <p>Crystal, from Dallas, Oregon, shares her experience as a Roots Dental All-On-X patient.</p>
-        </div>
-        <div className="patient-video">
-          {playing ? (
-            <iframe
-              src="https://player.vimeo.com/video/1040622074?h=fdb63c88e1&autoplay=1"
-              title="Crystal’s story — Roots Dental All-On-X patient"
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowFullScreen
-            />
-          ) : (
-            <button type="button" className="story-play" onClick={() => setPlaying(true)}>
-              <span className="play-symbol" aria-hidden="true">
-                ▶
-              </span>
-              <span>
-                Watch Crystal’s story<small>Patient video from Roots Dental</small>
-              </span>
-              <ArrowUpRight size={23} />
-            </button>
-          )}
-        </div>
-      </section>
+      <PatientStories />
       <section className="inner-section story-reviews">
         <p className="eyebrow">CARE & COMMUNICATION</p>
         <div className="review-quotes">
@@ -364,9 +334,6 @@ export function InnerPage({ page }: { page: Page }) {
       <main id="main" className={`inner-page ${page.kind}-page`}>
         <section className={`inner-hero ${page.image ? "with-photo" : "text-hero"}`}>
           <div className="inner-hero-copy">
-            <a className="breadcrumb" href="/">
-              Home
-            </a>
             <p className="eyebrow">{page.eyebrow}</p>
             <h1>{page.title}</h1>
             <p className="inner-deck">{page.description}</p>
@@ -458,7 +425,12 @@ export function InnerPage({ page }: { page: Page }) {
         {page.kind === "finance" && <Financing current={page.slug} />}
         {page.kind === "gallery" && <Gallery />}
         {page.kind === "stories" && <Stories />}
-        {page.kind === "locations" && <LocationDirectory />}
+        {page.kind === "locations" && (
+          <>
+            <LocationsMap />
+            <LocationDirectory />
+          </>
+        )}
         {page.kind === "contact" && (
           <>
             <LocationDirectory />

@@ -49,3 +49,20 @@ Combined validation passed: types, lint, 18 tests / 708 assertions, production b
 Navigation alignment correction: dropdown buttons had 20px vertical padding versus 12px on plain links. Direct links and triggers now share centered inline-flex alignment, 12px padding, 1.5 line-height and a 44px minimum hit area; chevrons use 1em sizing. Browser measurements confirm equal centers and heights across all four navigation items at normal desktop and 2560px widths. The mobile menu and Escape behavior remain correct.
 
 This combined stage is now committed locally on `main`; earlier uncommitted-stage notes above are historical. The working checkout is clean. Nothing has been pushed or deployed.
+
+## Locations map follow-up — 2026-09-08
+
+Added an SSR-safe, dynamically loaded Leaflet 1.9.4 map to `/locations/`, using OpenStreetMap raster tiles with visible attribution. No API key or application secret is required. Marker coordinates were copied from the five JetEngine/Leaflet markers on the legacy locations page and matched by listing ID to Portland, Gresham, Troutdale, Salem and Vancouver; the legacy structured data includes other practices and was not used. Existing addresses, hours and NexHealth booking IDs remain intact.
+
+User rejected the initial generic evergreen design. Reused the actual legacy map marker, `https://rootsdentalimplants.com/wp-content/uploads/2024/12/marker2.png`, stored locally as `/images/clinic-map-marker.png`. It is a circular green Roots logo with the original tree artwork and lettering. The asset was identified in the legacy map's `data-general.marker.url`; the main Roots Dental locations page uses Google Maps embeds. Markers have 56px hit areas, clinic-specific accessible labels, keyboard access and a contrasting selection ring. Five location selectors, Show all, zoom controls, address/directions popups and directory jumps are available. The server-rendered directory remains usable without the map.
+
+Validation: type checks, lint, 18 tests / 717 assertions and production build passed. Route smoke checks passed for 31 pages, 742 links/fragments, 33 assets, two unknown-route 404s and all five booking IDs. Browser checks verified loaded tiles, all five tree markers and their popup addresses/links, selected states, Show all, keyboard activation and the Salem directory jump. Mobile390 and widescreen2560 checks showed no horizontal overflow; browser error/warning logs were empty. Map changes are a local follow-up after commit `474230c`; no push or deployment performed.
+
+
+Team-page annotation cleanup: `/why-choose-us/` no longer shows the hero Home breadcrumb, hero eyebrow or team-heading eyebrow. Its editorial index is a quiet sentence-case “Our approach” label, with the redundant repeated section-title link removed. Other pages retain their breadcrumb/eyebrow layout. Desktop1297 and mobile390 layouts were checked.
+
+
+Latest user corrections supersede earlier map/annotation descriptions: the light cleanup task restored original why-choose-us labels/index while removing Home breadcrumbs across shared inner pages, and subsequently restored numbered map markers1–5. Those changes were preserved during testimonial work. Testimonials now includes all nine distinct legacy videos (five named Roots Vimeo stories plus four attributed YouTube stories); see page-migration.md for provenance and verification. Homepage untouched by this follow-up.
+
+
+Release authorized 2026-09-08: user requested push and deploy to the existing Dokploy preview. The accumulated implementation passed types, lint, 18tests/722assertions, production build and31route smoke checks. Deployment target/settings are recorded in roots-deployment.md. Rejected, unused logo-marker PNG removed; current numbered markers preserved. Prior statements that push/deployment were unauthorized are historical.

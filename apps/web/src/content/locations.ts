@@ -1,6 +1,8 @@
+// Coordinates match the legacy /locations/ map markers, verified 2026-09-08.
 export const locations = [
   {
     name: "Portland",
+    coordinates: [45.5333859, -122.6200202] as const,
     state: "OR",
     address: "4224 NE Halsey St #330",
     zip: "Portland, OR 97213",
@@ -9,6 +11,7 @@ export const locations = [
   },
   {
     name: "Gresham",
+    coordinates: [45.5187366, -122.43212752704] as const,
     state: "OR",
     address: "22400 SE Stark St, Suite 103",
     zip: "Gresham, OR 97030",
@@ -17,6 +20,7 @@ export const locations = [
   },
   {
     name: "Troutdale",
+    coordinates: [45.5409352, -122.38734832471] as const,
     state: "OR",
     address: "191 E Historic Columbia River Hwy",
     zip: "Troutdale, OR 97060",
@@ -25,6 +29,7 @@ export const locations = [
   },
   {
     name: "Salem",
+    coordinates: [44.9166413, -123.0302308] as const,
     state: "OR",
     address: "2510 12th St SE",
     zip: "Salem, OR 97302",
@@ -33,6 +38,7 @@ export const locations = [
   },
   {
     name: "Vancouver",
+    coordinates: [45.61042565, -122.50235005] as const,
     state: "WA",
     address: "16600 SE 15th St",
     zip: "Vancouver, WA 98683",

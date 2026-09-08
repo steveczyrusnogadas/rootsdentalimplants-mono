@@ -1,0 +1,173 @@
+.patient-story-feature {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 10%;
+  align-items: center;
+  margin-bottom: 56px;
+}
+.patient-story-feature > div > p:not(.eyebrow) {
+  max-width: 38ch;
+  margin-top: 24px;
+  font-size: 16px;
+  line-height: 1.8;
+}
+.patient-story-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px 32px;
+}
+.patient-story-card {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #435558;
+  text-align: left;
+  cursor: pointer;
+}
+.patient-story-poster {
+  display: block;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #485f4f;
+}
+.patient-story-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.patient-story-play {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  color: white;
+  background: #344d3ee8;
+}
+.patient-story-card:hover .patient-story-play {
+  background: #24392b;
+}
+.patient-story-card:focus-visible {
+  outline: 3px solid #485f4f;
+  outline-offset: 6px;
+}
+.patient-story-caption {
+  display: grid;
+  gap: 9px;
+  padding-top: 20px;
+}
+.patient-story-title {
+  font:
+    400 clamp(26px, 2vw, 40px)/1.2 Georgia,
+    serif;
+}
+.patient-story-credit {
+  font:
+    400 12px/1.6 "Noto Sans Variable",
+    sans-serif;
+}
+.patient-story-watch {
+  font:
+    500 13px/1.5 "Noto Sans Variable",
+    sans-serif;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.patient-stories-shared {
+  border-top: 1px solid #dce2dd;
+}
+.patient-stories-shared .inner-section-heading p {
+  margin-top: 22px;
+  max-width: 60ch;
+  font-size: 16px;
+  line-height: 1.7;
+}
+.patient-story-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(1000px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  padding: 20px;
+  border: 0;
+  color: #435558;
+  background: #fff;
+  overflow: auto;
+}
+.patient-story-dialog::backdrop {
+  background: #17261ee8;
+}
+.patient-story-dialog-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.patient-story-dialog-heading h2 {
+  font:
+    400 28px/1.2 Georgia,
+    serif;
+}
+.patient-story-dialog-heading button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 8px;
+  border: 1px solid #a4b7a9;
+  background: white;
+  color: #435558;
+  cursor: pointer;
+}
+.patient-story-dialog iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16/9;
+  border: 0;
+  background: #17261e;
+}
+.patient-story-dialog-footer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+  font:
+    400 12px/1.6 "Noto Sans Variable",
+    sans-serif;
+}
+.patient-story-dialog-footer p {
+  margin: 0;
+}
+.patient-story-dialog-footer a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (max-width: 760px) {
+  .patient-story-feature,
+  .patient-story-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .patient-story-feature {
+    margin-bottom: 36px;
+  }
+  .patient-story-dialog {
+    padding: 12px;
+  }
+  .patient-story-dialog-heading h2 {
+    font-size: 23px;
+  }
+  .patient-story-dialog-heading button span {
+    display: none;
+  }
+}
