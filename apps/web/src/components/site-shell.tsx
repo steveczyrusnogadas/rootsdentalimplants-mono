@@ -1,6 +1,9 @@
+import { localizedHref, localizeTree, useLocale } from "@/lib/i18n";
+import { useRouterState } from "@tanstack/react-router";
+import "@/language-switch.css";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { BackToTop } from "./back-to-top";
-import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Languages, Menu, X } from "lucide-react";
 
 const groups = [
   {
@@ -27,6 +30,8 @@ const groups = [
 ];
 
 export function SiteHeader() {
+  const currentPath = useRouterState({ select: (state) => state.location.pathname });
+  const locale = useLocale();
   const [open, setOpen] = useState(false);
   const [group, setGroup] = useState<string | null>(null);
   const header = useRef<HTMLElement>(null);
@@ -44,7 +49,7 @@ export function SiteHeader() {
     setGroup(null);
     setOpen(false);
   };
-  return (
+  return localizeTree(
     <>
       <a className="skip-link" href="#main">
         Skip to content
@@ -101,9 +106,22 @@ export function SiteHeader() {
           ))}
           <a href="/locations/">Locations</a>
         </nav>
-        <a href="/contact-us/#locations" className="button header-book">
-          Let’s talk <ArrowUpRight size={17} />
-        </a>
+        <div className="header-actions">
+          <a
+            className="language-switch"
+            href={localizedHref(currentPath, locale === "en" ? "es" : "en")}
+            hrefLang={locale === "en" ? "es" : "en"}
+            lang={locale === "en" ? "es" : "en"}
+            aria-label={locale === "en" ? "Cambiar a español" : "Switch to English"}
+            title={locale === "en" ? "Español" : "English"}
+            data-language-switch="true"
+          >
+            <Languages size={20} aria-hidden="true" />
+          </a>
+          <a href="/contact-us/#locations" className="button header-book">
+            Let’s talk <ArrowUpRight size={17} />
+          </a>
+        </div>
         <button
           className="menu-toggle"
           type="button"
@@ -157,12 +175,14 @@ export function SiteHeader() {
           </nav>
         )}
       </header>
-    </>
+    </>,
+    locale,
   );
 }
 
 export function SiteFooter() {
-  return (
+  const locale = useLocale();
+  return localizeTree(
     <>
       <BackToTop />
       <footer className="site-footer">
@@ -210,6 +230,7 @@ export function SiteFooter() {
           </div>
         </div>
       </footer>
-    </>
+    </>,
+    locale,
   );
 }

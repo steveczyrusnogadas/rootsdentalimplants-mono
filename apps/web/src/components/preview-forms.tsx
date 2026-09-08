@@ -1,3 +1,4 @@
+import { localizeTree, useLocale } from "@/lib/i18n";
 import { useId, useState } from "react";
 import { ArrowUpRight, ArrowLeft } from "lucide-react";
 import { locations } from "@/content/locations";
@@ -9,6 +10,7 @@ export function PreviewForm({
   kind?: "callback" | "guide" | "event";
   location?: string;
 }) {
+  const locale = useLocale();
   const id = useId();
   const [notice, setNotice] = useState(false);
   const title =
@@ -17,7 +19,7 @@ export function PreviewForm({
       : kind === "guide"
         ? "Request an implant pricing guide."
         : "Ask for a conversation.";
-  return (
+  return localizeTree(
     <section className="preview-form" aria-labelledby={`${id}-title`}>
       <p className="eyebrow">{kind === "event" ? "RSVP PREVIEW" : "REQUEST PREVIEW"}</p>
       <h2 id={`${id}-title`}>{title}</h2>
@@ -109,7 +111,8 @@ export function PreviewForm({
           </a>
         )}
       </form>
-    </section>
+    </section>,
+    locale,
   );
 }
 
@@ -137,10 +140,11 @@ const steps = [
 ];
 
 export function EligibilityQuiz() {
+  const locale = useLocale();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const current = steps[step];
-  return (
+  return localizeTree(
     <section className="quiz-panel" aria-labelledby="quiz-step-title">
       <p className="preview-disclosure">
         Design preview only. Answers stay in this page while it is open. They are not submitted or saved, and this quiz
@@ -201,6 +205,7 @@ export function EligibilityQuiz() {
           </a>
         )}
       </div>
-    </section>
+    </section>,
+    locale,
   );
 }

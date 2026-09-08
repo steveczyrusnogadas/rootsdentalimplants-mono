@@ -1,3 +1,4 @@
+import { translate, localizeTree, useLocale } from "@/lib/i18n";
 import { useEffect, useRef, useState } from "react";
 import type { Map as LeafletMap, Marker } from "leaflet";
 import { locations } from "@/content/locations";
@@ -5,6 +6,7 @@ import "leaflet/dist/leaflet.css";
 import "./locations-map.css";
 
 export function LocationsMap() {
+  const locale = useLocale();
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<LeafletMap | null>(null);
   const markers = useRef(new Map<string, Marker>());
@@ -23,10 +25,17 @@ export function LocationsMap() {
         if (cancelled || !container.current) return;
         const instance = L.map(container.current, {
           scrollWheelZoom: false,
+          zoomControl: false,
           zoomAnimation: false,
           fadeAnimation: false,
           markerZoomAnimation: false,
         });
+        L.control
+          .zoom({
+            zoomInTitle: locale === "es" ? "Acercar" : "Zoom in",
+            zoomOutTitle: locale === "es" ? "Alejar" : "Zoom out",
+          })
+          .addTo(instance);
         map.current = instance;
         const bounds = L.latLngBounds(
           locations.map((location) => L.latLng(location.coordinates[0], location.coordinates[1])),
@@ -54,13 +63,13 @@ export function LocationsMap() {
           address.textContent = `${location.address}, ${location.zip}`;
           const directions = document.createElement("a");
           directions.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${location.address} ${location.zip}`)}`;
-          directions.textContent = "Get directions";
+          directions.textContent = translate("Get directions", locale);
           const details = document.createElement("a");
           details.href = `#${location.name.toLowerCase()}`;
-          details.textContent = "Hours & booking";
+          details.textContent = translate("Hours & booking", locale);
           popup.append(name, address, directions, details);
           const marker = L.marker(L.latLng(location.coordinates[0], location.coordinates[1]), {
-            title: `${location.name} implant center`,
+            title: translate(`${location.name} implant center`, locale),
             keyboard: true,
             icon: L.divIcon({
               className: "roots-map-marker",
@@ -72,7 +81,7 @@ export function LocationsMap() {
           })
             .addTo(instance)
             .bindPopup(popup, { maxWidth: 250 });
-          marker.getElement()?.setAttribute("aria-label", `${location.name} implant center`);
+          marker.getElement()?.setAttribute("aria-label", translate(`${location.name} implant center`, locale));
           marker.on("popupopen", () => {
             marker.getElement()?.classList.add("is-selected");
             setSelected(location.name);
@@ -96,7 +105,7 @@ export function LocationsMap() {
       map.current = null;
       markerCollection.clear();
     };
-  }, []);
+  }, [locale]);
 
   function showAll() {
     if (!map.current) return;
@@ -108,7 +117,7 @@ export function LocationsMap() {
     setSelected(null);
   }
 
-  return (
+  return localizeTree(
     <section className="inner-section locations-map-section" aria-labelledby="map-title">
       <div className="map-heading">
         <div>
@@ -164,6 +173,7 @@ export function LocationsMap() {
       <noscript>
         <p className="map-status">Enable JavaScript to explore the map, or use the location directory below.</p>
       </noscript>
-    </section>
+    </section>,
+    locale,
   );
 }

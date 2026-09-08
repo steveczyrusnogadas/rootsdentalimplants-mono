@@ -1,3 +1,4 @@
+import { localizeTree, useLocale } from "@/lib/i18n";
 import { useEffect, useRef, useState } from "react";
 import { Play, X } from "lucide-react";
 import "./patient-stories.css";
@@ -5,7 +6,7 @@ import "./patient-stories.css";
 type Story = { id: string; title: string; credit: string; embed: string; url: string };
 
 // Names, IDs, unlisted hashes and posters verified against the legacy testimonials
-// page and each publisher's oEmbed metadata on 2026-09-08.
+// page/homepage and each publisher's oEmbed metadata on 2026-09-08.
 const rootsStories: Story[] = [
   {
     id: "1040622074",
@@ -42,6 +43,13 @@ const rootsStories: Story[] = [
     embed: "https://player.vimeo.com/video/1040259033?h=beabccb16d",
     url: "https://vimeo.com/1040259033/beabccb16d",
   },
+  {
+    id: "1108607676",
+    title: "Richard’s story",
+    credit: "Roots Dental · Film by 11:10 Productions",
+    embed: "https://player.vimeo.com/video/1108607676?autopause=1",
+    url: "https://vimeo.com/1108607676",
+  },
 ];
 const sharedStories: Story[] = [
   {
@@ -75,6 +83,7 @@ const sharedStories: Story[] = [
 ];
 
 export function PatientStories() {
+  const locale = useLocale();
   const [active, setActive] = useState<Story | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLButtonElement | null>(null);
@@ -115,7 +124,7 @@ export function PatientStories() {
     );
   }
 
-  return (
+  return localizeTree(
     <>
       <section className="inner-section patient-stories" aria-labelledby="patient-stories-title">
         <div className="patient-story-feature">
@@ -126,7 +135,7 @@ export function PatientStories() {
               <br />
               <em>Hear their stories.</em>
             </h2>
-            <p>Personal experiences, shared by Crystal, Shayla, Renee, Charlotte and Diane.</p>
+            <p>Personal experiences, shared by Richard, Crystal, Shayla, Renee, Charlotte and Diane.</p>
           </div>
           {storyButton(rootsStories[0]!)}
         </div>
@@ -173,6 +182,7 @@ export function PatientStories() {
           </>
         )}
       </dialog>
-    </>
+    </>,
+    locale,
   );
 }

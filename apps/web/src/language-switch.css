@@ -1,0 +1,38 @@
+.language-switch {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--ink, #173c3a);
+  border: 1px solid transparent;
+  border-radius: 50%;
+  text-decoration: none;
+}
+.language-switch:hover {
+  background: #e9eee7;
+}
+.language-switch:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+@media (max-width: 380px) {
+  .site-header {
+    padding-inline: 16px;
+    gap: 8px;
+  }
+  .header-actions {
+    gap: 4px;
+  }
+  .header-actions .header-book svg {
+    display: none;
+  }
+}

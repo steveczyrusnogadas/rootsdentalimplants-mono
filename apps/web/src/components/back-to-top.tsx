@@ -1,3 +1,4 @@
+import { localizeTree, useLocale } from "@/lib/i18n";
 import { useEffect, useState } from "react";
 import { ArrowUp } from "lucide-react";
 import styles from "./back-to-top.module.css";
@@ -9,6 +10,7 @@ type BackToTopProps = {
 
 /** Mount once in the public site layout, outside transformed containers. */
 export function BackToTop({ threshold = 400 }: BackToTopProps) {
+  const locale = useLocale();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -20,7 +22,7 @@ export function BackToTop({ threshold = 400 }: BackToTopProps) {
 
   if (!visible) return null;
 
-  return (
+  return localizeTree(
     <button
       type="button"
       className={styles.control}
@@ -32,6 +34,7 @@ export function BackToTop({ threshold = 400 }: BackToTopProps) {
       }}
     >
       <ArrowUp size={21} strokeWidth={1.75} aria-hidden="true" />
-    </button>
+    </button>,
+    locale,
   );
 }

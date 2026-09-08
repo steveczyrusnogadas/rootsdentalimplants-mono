@@ -857,8 +857,8 @@ details[open] > summary > svg {
   .section-pad,
   .conversation-band,
   .site-footer {
-    padding-left: max(6vw, calc((100vw - 1450px) / 2));
-    padding-right: max(6vw, calc((100vw - 1450px) / 2));
+    padding-left: max(6vw, calc((100vw - 1440px) / 2));
+    padding-right: max(6vw, calc((100vw - 1440px) / 2));
   }
   .hero-copy {
     padding-left: 0;
@@ -1890,7 +1890,9 @@ html {
 .conversation-band > .sprig {
   width: 360px;
   height: 300px;
-  left: -200px;
+  /* Keep the artwork 40px before the section copy, inside its centered composition. */
+  left: calc(18vw - 400px);
+  pointer-events: none;
   bottom: 0;
   object-fit: cover;
   object-position: left;
@@ -2142,11 +2144,11 @@ html {
   .questions-section > .patient-notice { grid-column: auto; padding: 24px; }
 }
 
-/* Scale the composition together on large displays; keep reading measures bounded. */
+/* Center a 1440px composition on large displays without enlarging type or spacing. */
 @media (min-width: 1600px) {
   :root {
-    --wide-unit: clamp(1px, 0.06vw, 2px);
-    --page-gutter: max(6vw, calc((100vw - 3200px) / 2));
+    --wide-unit: 1px;
+    --page-gutter: max(6vw, calc((100vw - 1440px) / 2));
   }
   .site-header, .hero, .section-pad, .conversation-band, .care-values, .site-footer {
     padding-left: var(--page-gutter);
@@ -2187,6 +2189,7 @@ html {
   .treatment-trigger { font-size: calc(22 * var(--wide-unit)); padding-block: calc(25 * var(--wide-unit)); }
   .care-caption, .results-note, .booking-note { font-size: calc(11 * var(--wide-unit)); }
   .conversation-band { padding-block: calc(70 * var(--wide-unit)); }
+  .conversation-band > .sprig { left: calc(var(--page-gutter) - 400px); }
   .conversation-band h2 { font-size: calc(54 * var(--wide-unit)); }
   .conversation-aside { padding-left: calc(45 * var(--wide-unit)); }
   .team-introduction { max-width: 58ch; font-size: calc(15 * var(--wide-unit)); }

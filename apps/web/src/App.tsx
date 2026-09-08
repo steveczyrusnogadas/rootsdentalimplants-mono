@@ -1,3 +1,4 @@
+import { localizeTree, useLocale } from "@/lib/i18n";
 import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowUpRight, Plus } from "lucide-react";
 
@@ -13,17 +14,20 @@ function Sprig({
   className?: string;
   variant?: "grove" | "pair" | "branch" | "original";
 }) {
-  return (
+  const locale = useLocale();
+  return localizeTree(
     <img
       className={`sprig ${className}`}
       src={variant === "original" ? "/images/trees.svg" : `/images/evergreen-${variant}.svg`}
       alt=""
       aria-hidden="true"
-    />
+    />,
+    locale,
   );
 }
 
 function App() {
+  const locale = useLocale();
   const [activeTreatment, setActiveTreatment] = useState<number | null>(0);
   const heroVideo = useRef<HTMLVideoElement>(null);
   const [playingStory, setPlayingStory] = useState(false);
@@ -61,7 +65,7 @@ function App() {
     return () => observer.disconnect();
   }, []);
 
-  return (
+  return localizeTree(
     <>
       <SiteHeader />
 
@@ -530,7 +534,8 @@ function App() {
       </main>
 
       <SiteFooter />
-    </>
+    </>,
+    locale,
   );
 }
 export default App;

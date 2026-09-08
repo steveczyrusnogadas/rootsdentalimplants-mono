@@ -1,3 +1,4 @@
+import { useLocale, localizeTree } from "@/lib/i18n";
 import type { ReactNode } from "react";
 import type { QueryClient } from "@tanstack/react-query";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -19,7 +20,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   }),
   component: Outlet,
   shellComponent: RootDocument,
-  notFoundComponent: () => (
+  notFoundComponent: MissingPage,
+});
+function MissingPage() {
+  const locale = useLocale();
+  return localizeTree(
     <main className="missing-page">
       <p className="eyebrow">ROOTS DENTAL IMPLANT CENTER / 404</p>
       <h1>
@@ -31,13 +36,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       <a href="/" className="button">
         Back to home
       </a>
-    </main>
-  ),
-});
+    </main>,
+    locale,
+  );
+}
 function RootDocument({ children }: { children: ReactNode }) {
+  const locale = useLocale();
   const { queryClient } = Route.useRouteContext();
   return (
-    <html lang="en">
+    <html lang={locale}>
       <head>
         <HeadContent />
       </head>

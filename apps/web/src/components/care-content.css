@@ -1,0 +1,82 @@
+.care-introduction {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 8%;
+  align-items: center;
+}
+.care-introduction .inner-section-heading p:not(.eyebrow),
+.care-faq-videos .inner-section-heading p:not(.eyebrow) {
+  margin-top: 22px;
+  max-width: 60ch;
+  font-size: 16px;
+  line-height: 1.7;
+}
+.care-faq-videos .inner-section-heading {
+  margin-bottom: 36px;
+}
+.care-video {
+  min-width: 0;
+}
+.care-financing {
+  border-top: 1px solid var(--line);
+}
+.care-financing-intro {
+  max-width: 68ch;
+  line-height: 1.8;
+  margin: 20px 0 32px;
+}
+.care-financing-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px;
+}
+.care-financing-grid h3 {
+  font:
+    400 28px/1.2 Georgia,
+    serif;
+  margin-bottom: 18px;
+}
+.care-financing-grid p {
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+.care-financing-grid ul {
+  padding-left: 20px;
+  margin: 18px 0;
+}
+.care-financing-grid li {
+  padding: 5px 0;
+}
+.care-financing-grid a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.care-financing details {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+.care-financing summary {
+  cursor: pointer;
+  font-weight: 550;
+  line-height: 1.6;
+}
+.care-financing details p {
+  margin: 16px 0 0;
+  line-height: 1.8;
+  max-width: 78ch;
+}
+.care-financing-help {
+  margin-top: 40px;
+}
+.care-treatment-prices .membership-prices {
+  margin-top: 0;
+  opacity: 1;
+  transform: none;
+}
+@media (max-width: 760px) {
+  .care-introduction,
+  .care-financing-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}

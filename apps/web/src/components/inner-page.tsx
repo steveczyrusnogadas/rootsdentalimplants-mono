@@ -1,8 +1,12 @@
+import { localizeTree, useLocale } from "@/lib/i18n";
 import { ArrowUpRight, Plus } from "lucide-react";
 import { SiteHeader, SiteFooter } from "./site-shell";
 import { EligibilityQuiz, PreviewForm } from "./preview-forms";
 import { events, faqs, providers, treatments, type Page } from "@/content/pages";
 import { locations } from "@/content/locations";
+import { CareVideo, RootsIntroductionVideo, FaqVideos } from "./care-videos";
+import { FinancingApplications } from "./financing-applications";
+import { TreatmentPrices } from "./treatment-prices";
 import { PatientStories } from "./patient-stories";
 import { LocationsMap } from "./locations-map";
 
@@ -15,16 +19,19 @@ const hours: Record<string, string> = {
 };
 
 function LinkArrow({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
+  const locale = useLocale();
+  return localizeTree(
     <a className="text-link" href={href}>
       {children}
       <ArrowUpRight size={18} />
-    </a>
+    </a>,
+    locale,
   );
 }
 
 function TreatmentLinks({ current }: { current: string }) {
-  return (
+  const locale = useLocale();
+  return localizeTree(
     <section className="inner-section treatment-directory">
       <div className="inner-section-heading">
         <p className="eyebrow">EXPLORE YOUR OPTIONS</p>
@@ -50,12 +57,14 @@ function TreatmentLinks({ current }: { current: string }) {
             </a>
           ))}
       </div>
-    </section>
+    </section>,
+    locale,
   );
 }
 
 function TeamDirectory() {
-  return (
+  const locale = useLocale();
+  return localizeTree(
     <section className="inner-section" id="team">
       <div className="inner-section-heading">
         <p className="eyebrow">THE PEOPLE BEHIND YOUR CARE</p>
@@ -75,12 +84,14 @@ function TeamDirectory() {
           </a>
         ))}
       </div>
-    </section>
+    </section>,
+    locale,
   );
 }
 
 function LocationDirectory() {
-  return (
+  const locale = useLocale();
+  return localizeTree(
     <section className="inner-section" id="locations">
       <div className="inner-section-heading">
         <p className="eyebrow">OREGON & WASHINGTON</p>
@@ -122,12 +133,14 @@ function LocationDirectory() {
         ))}
       </div>
       <p className="inner-note">Booking opens NexHealth. Call your location to confirm hours for a particular day.</p>
-    </section>
+    </section>,
+    locale,
   );
 }
 
 function EventDirectory() {
-  return (
+  const locale = useLocale();
+  return localizeTree(
     <section className="inner-section" id="events">
       <div className="inner-section-heading">
         <p className="eyebrow">COME WITH YOUR QUESTIONS</p>
@@ -145,18 +158,20 @@ function EventDirectory() {
           </a>
         ))}
       </div>
-    </section>
+    </section>,
+    locale,
   );
 }
 
 function Financing({ current }: { current: string }) {
+  const locale = useLocale();
   const lenders = [
     { name: "Proceed Finance", href: "https://www.proceedfinance.com/" },
     { name: "Sunbit", href: "https://sunbit.com/" },
     { name: "CareCredit", href: "https://www.carecredit.com/" },
     { name: "Cherry", href: "https://withcherry.com/" },
   ];
-  return (
+  return localizeTree(
     <>
       <section className="inner-section editorial">
         <div>
@@ -170,7 +185,7 @@ function Financing({ current }: { current: string }) {
         <div className="prose">
           <p>
             Ask for a written treatment plan and a clear explanation of what is included. Our team can discuss payment
-            by major credit card and the financing providers listed below.
+            by cash, check or major credit card and the financing providers listed below.
           </p>
           <h3>Have insurance questions?</h3>
           <p>
@@ -204,15 +219,18 @@ function Financing({ current }: { current: string }) {
           location.
         </p>
       </section>
+      <FinancingApplications />
       <section className="inner-section">
         <PreviewForm kind="guide" />
       </section>
-    </>
+    </>,
+    locale,
   );
 }
 
 function Gallery() {
-  return (
+  const locale = useLocale();
+  return localizeTree(
     <section className="inner-section full-gallery">
       <div className="gallery-intro">
         <p>
@@ -239,12 +257,14 @@ function Gallery() {
           </div>
         </figure>
       ))}
-    </section>
+    </section>,
+    locale,
   );
 }
 
 function Stories() {
-  return (
+  const locale = useLocale();
+  return localizeTree(
     <>
       <PatientStories />
       <section className="inner-section story-reviews">
@@ -267,24 +287,34 @@ function Stories() {
         </div>
         <LinkArrow href="/before-after/">Explore the patient gallery</LinkArrow>
       </section>
-    </>
+    </>,
+    locale,
   );
 }
 
 function EventPage({ slug }: { slug: string }) {
+  const locale = useLocale();
   const event = events.find((item) => item.slug === slug)!;
-  return (
+  return localizeTree(
     <>
       <section className="inner-section event-details">
         <div>
           <p className="eyebrow">{event.status}</p>
           <h2>{event.name}</h2>
-          <p>Learn about implant options, bring your questions, and enjoy a complimentary dinner.</p>
+          <p>
+            Learn about implant options, bring your questions, and enjoy a complimentary dinner. Registration is free.
+          </p>
+          {event.slug !== "implant-dinner-salem" && (
+            <p>Meet real patients, ask questions freely, and learn whether full-arch implants may fit your needs.</p>
+          )}
           {event.status === "Past event" && (
             <p className="event-status">This date has passed. Call the team for information about future events.</p>
           )}
           {event.status === "Details to come" && (
-            <p className="event-status">A new date and venue have not been announced. Call before making plans.</p>
+            <p className="event-status">
+              A new date and venue have not been announced. Call to confirm the event and RSVP deadline before making
+              plans.
+            </p>
           )}
           <LinkArrow href={`tel:${event.phone}`}>Call {event.phone}</LinkArrow>
         </div>
@@ -309,26 +339,37 @@ function EventPage({ slug }: { slug: string }) {
           )}
         </dl>
       </section>
-      {event.slug === "implant-dinner-gresham" && (
+      <section className="inner-section event-invitation">
+        <CareVideo
+          title={event.videoTitle}
+          embed={`https://www.youtube-nocookie.com/embed/${event.videoId}?rel=0`}
+          url={`https://www.youtube.com/watch?v=${event.videoId}`}
+          poster={`/images/event-${event.slug.replace("implant-dinner-", "")}.webp`}
+          credit="Roots Dental Implant Center"
+        />
+      </section>
+      {event.offer && (
         <aside className="inner-section event-offer">
-          <p className="eyebrow">GRESHAM EVENT OFFER</p>
-          <h2>Up to $1,000 off.</h2>
+          <p className="eyebrow">{event.status === "Past event" ? "OFFER FROM THIS EVENT" : "EVENT OFFER"}</p>
+          <h2>{event.offer}</h2>
           <p>
-            $500 per arch for implant treatment for dinner attendees. Presented and managed by Roots Dental Implant
-            Center; valid for bookings within 30 days of the event. Confirm the offer with the team.
+            {event.offerDetails} Presented and managed by Roots Dental Implant Center; valid for bookings within 30 days
+            of the event. Confirm the offer with the team.
           </p>
         </aside>
       )}
       <section className="inner-section">
         <PreviewForm kind="event" location={event.name === "Halsey / Portland" ? "Portland" : event.name} />
       </section>
-    </>
+    </>,
+    locale,
   );
 }
 
 export function InnerPage({ page }: { page: Page }) {
+  const locale = useLocale();
   const reading = page.kind === "policy" || page.kind === "article";
-  return (
+  return localizeTree(
     <>
       <SiteHeader />
       <main id="main" className={`inner-page ${page.kind}-page`}>
@@ -397,7 +438,14 @@ export function InnerPage({ page }: { page: Page }) {
             </section>
           </>
         )}
-        {page.kind === "about" && <TeamDirectory />}
+        {page.kind === "about" && (
+          <>
+            <RootsIntroductionVideo />
+            <TeamDirectory />
+          </>
+        )}
+        {["full-arch-dental-implants", "implant-supported-dentures"].includes(page.slug) && <TreatmentPrices />}
+        {page.kind === "faq" && <FaqVideos />}
         {page.kind === "faq" && (
           <section className="inner-section faq-page-layout">
             <div>
@@ -511,6 +559,7 @@ export function InnerPage({ page }: { page: Page }) {
         )}
       </main>
       <SiteFooter />
-    </>
+    </>,
+    locale,
   );
 }

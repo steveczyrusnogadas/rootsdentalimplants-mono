@@ -46,7 +46,7 @@
   font-size: 11px;
 }
 .roots-locations-map {
-  height: clamp(430px, 37vw, 680px);
+  height: clamp(430px, 37vw, 533px);
   background: #e9eeea;
   border: 1px solid #b2cab7;
   isolation: isolate;

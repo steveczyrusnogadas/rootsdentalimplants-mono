@@ -1,9 +1,11 @@
+import { localizeTree, useLocale } from "@/lib/i18n";
 import { useState } from "react";
 import { ArrowUpRight, Play } from "lucide-react";
 import "@/homepage-experiment.css";
 
 export function MembershipPrices() {
-  return (
+  const locale = useLocale();
+  return localizeTree(
     <aside className="membership-prices reveal" aria-labelledby="membership-title">
       <div className="membership-heading">
         <p className="eyebrow">A CLEARER STARTING POINT</p>
@@ -37,13 +39,15 @@ export function MembershipPrices() {
           Your personalized treatment plan and quote determine your cost.
         </p>
       </div>
-    </aside>
+    </aside>,
+    locale,
   );
 }
 
 export function ClinicIntroduction() {
+  const locale = useLocale();
   const [playing, setPlaying] = useState(false);
-  return (
+  return localizeTree(
     <section className="clinic-introduction section-pad" aria-labelledby="clinic-introduction-title">
       <div className="clinic-introduction-copy reveal">
         <p className="eyebrow">GET TO KNOW ROOTS</p>
@@ -105,6 +109,7 @@ export function ClinicIntroduction() {
           <ArrowUpRight size={20} aria-hidden="true" />
         </a>
       </div>
-    </section>
+    </section>,
+    locale,
   );
 }

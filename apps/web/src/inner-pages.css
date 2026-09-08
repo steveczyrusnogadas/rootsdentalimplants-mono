@@ -1,6 +1,6 @@
 /* Public page layouts share the homepage palette and broad composition. */
 :root {
-  --inner-gutter: max(6vw, calc((100vw - 1450px) / 2));
+  --inner-gutter: max(6vw, calc((100vw - 1440px) / 2));
 }
 .nav-group {
   position: relative;
@@ -703,7 +703,7 @@
 }
 @media (min-width: 1600px) {
   :root {
-    --inner-gutter: max(6vw, calc((100vw - 3200px) / 2));
+    --inner-gutter: max(6vw, calc((100vw - 1440px) / 2));
   }
   .inner-page {
     --inner-space: calc(90 * var(--wide-unit));

@@ -165,6 +165,12 @@ export const providers: Page[] = [
           "After returning to Oregon in 2017, he began teaching dentists about implant placement and restoration. His work includes implant education with Dental Success Network and Neodent/Straumann Group, alongside continuing clinical education.",
         ],
       },
+      {
+        title: "Complex implant care.",
+        paragraphs: [
+          "Dr. Brinton’s implant practice includes zygomatic implants for selected patients with insufficient upper-jaw bone for conventional implants. An individual assessment determines which options may be appropriate.",
+        ],
+      },
       { title: "Beyond the clinic.", paragraphs: ["Dr. Brinton co-owns Element Dental Lab and is a father of three."] },
     ],
   },
@@ -181,7 +187,7 @@ export const providers: Page[] = [
         title: "Meet Dr. Huish.",
         paragraphs: [
           "Dr. Huish graduated from Oregon Health & Science University School of Dentistry in 2013. His further training includes orthodontics, dental surgery and endodontics, as well as experience caring for patients with special needs.",
-          "He has completed two fellowships in implant therapy and training in oral and IV sedation. He also mentors dentists in surgical and restorative techniques. His own experience of breaking a front tooth helped shape his interest in dentistry.",
+          "He has completed two fellowships in implant therapy and is certified in oral and IV sedation. He regularly works with a nurse anesthetist and also mentors dentists in surgical and restorative techniques. His own experience of breaking a front tooth helped shape his interest in dentistry.",
         ],
       },
       {
@@ -313,7 +319,11 @@ export const events = [
     venue: "Bumpers · 21935 NE Halsey St #100, Fairview, OR 97024",
     status: "Upcoming event",
     deadline: "October 23, 2026",
-    phone: "503-512-6184",
+    phone: "503-855-6353",
+    videoId: "0FeAI1BSSFw",
+    videoTitle: "Gresham implant dinner invitation",
+    offer: "Up to $1,000 off.",
+    offerDetails: "$500 per arch for implant treatment for dinner attendees.",
   },
   {
     slug: "implant-dinner-troutdale",
@@ -323,6 +333,11 @@ export const events = [
     venue: "Venue to be announced",
     status: "Details to come",
     phone: "503-855-6792",
+    deadline: "June 4 (date listed for RSVP)",
+    videoId: "x_hY-3fO7tE",
+    videoTitle: "Halsey full-arch implant dinner invitation",
+    offer: "$500 off.",
+    offerDetails: "Implant treatment for attendees of the implant dinner.",
   },
   {
     slug: "implant-dinner-halsey",
@@ -332,6 +347,11 @@ export const events = [
     venue: "Roots Dental Office Halsey",
     status: "Past event",
     phone: "503-647-6135",
+    deadline: "June 4, 2026",
+    videoId: "x_hY-3fO7tE",
+    videoTitle: "Halsey full-arch implant dinner invitation",
+    offer: "$500 off.",
+    offerDetails: "Implant treatment for attendees of the implant dinner.",
   },
   {
     slug: "implant-dinner-vancouver",
@@ -341,6 +361,11 @@ export const events = [
     venue: "Gustav’s",
     status: "Past event",
     phone: "360-310-4683",
+    deadline: "May 20, 2026",
+    videoId: "_O0m31JsxEw",
+    videoTitle: "Vancouver full-arch implant dinner invitation",
+    offer: "$500 off.",
+    offerDetails: "Implant treatment for attendees of the implant dinner.",
   },
   {
     slug: "implant-dinner-salem",
@@ -350,6 +375,8 @@ export const events = [
     venue: "Ratchet Brewery",
     status: "Past event",
     phone: "503-506-6339",
+    videoId: "ixfj8vE2TZw",
+    videoTitle: "Salem implant dinner welcome video",
   },
 ];
 
