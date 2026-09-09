@@ -44,3 +44,13 @@ User explicitly authorized committing, pushing and deploying the accumulated sit
 
 
 The final bilingual release expands smoke coverage to62English/Spanish pages. Check `/es/`, a translated inner page, current-page language switching, `/implantes-dentales/` redirect, numbered map,10patient stories, event-specific invitations/phones, qualified treatment prices and external financing applications. Preview noindex/robots restrictions stay enabled. User authorized this release after the initial49827b7 deployment, including local1440px/tree-placement corrections and audit follow-ups; stop feature work once deployed and verified.
+
+## Homepage motion release — 2026-09-09
+
+User authorized commit, push and deployment of the completed homepage motion work to the same existing Dokploy preview. Preserve preview crawl restrictions and the business domain.
+
+The original foreground clinic hero film remains unchanged. Three decorative local films now support the pale cedar hero background, consultation woodland and dark locations directory. Their shared component starts playback on viewport entry, pauses offscreen and uses static first-frame posters for reduced motion or playback failure. The user requested no visible decorative playback buttons. Consultation copy aligns with the main content gutters; the old locations sprig is removed. One small noninteractive SVG bird briefly tilts its head during an 18-second cycle and stays still with reduced motion.
+
+Final media: `roots-hero-cedar.mp4` (1780×800, about 353 KB), `roots-woodland.mp4` (1920×1080, about 1.1 MB), `roots-locations.mp4` (1920×1080, about 360 KB), each with its matching `roots-*-poster.jpg`. These user-supplied animations are silent H.264, 24 fps, approximately 5.17 seconds, with faststart. Source artwork and superseded static previews remain local and are not required by the release.
+
+Release verification includes English/Spanish SSR, six new media URLs, original `/video/roots-clinic.mp4`, viewport playback and actual loop restarts, reduced-motion fallback, clinic booking destinations, single decorative bird, mobile layout and the centered 1440px composition on wide screens. To inspect the original clinic video specifically, target `.hero-photo video`; `.hero video` also matches the new decorative background.

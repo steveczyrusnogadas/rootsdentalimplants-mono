@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowUpRight, Plus } from "lucide-react";
 
 import { MembershipPrices, ClinicIntroduction } from "@/components/homepage-experiment";
+import { WoodlandBackground } from "@/components/woodland-background";
+import { WoodlandBird } from "@/components/woodland-bird";
 import { providers } from "@/content/pages";
 import { locations } from "@/content/locations";
 import { SiteHeader, SiteFooter } from "@/components/site-shell";
@@ -71,6 +73,7 @@ function App() {
 
       <main id="main">
         <section className="hero" aria-labelledby="hero-title">
+          <WoodlandBackground variant="hero-cedar" />
           <div className="hero-copy">
             <h1 id="hero-title">
               Transform your
@@ -258,7 +261,8 @@ function App() {
         </section>
 
         <section className="conversation-band">
-          <Sprig variant="original" />
+          <WoodlandBackground />
+          <WoodlandBird />
           <div className="reveal">
             <p className="eyebrow">A LITTLE LESS UNKNOWN</p>
             <h2>
@@ -489,6 +493,7 @@ function App() {
         </section>
 
         <section id="locations" className="locations-section section-pad">
+          <WoodlandBackground variant="locations" />
           <div className="locations-heading reveal">
             <div>
               <p className="eyebrow">FIND A ROOTS IMPLANT CENTER</p>
@@ -498,7 +503,6 @@ function App() {
                 <em>A little closer.</em>
               </h2>
             </div>
-            <Sprig variant="original" />
           </div>
           <div className="location-list">
             {locations.map((location) => (
