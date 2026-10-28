@@ -75,23 +75,16 @@ function App() {
         <section className="hero" aria-labelledby="hero-title">
           <WoodlandBackground variant="hero-cedar" />
           <div className="hero-copy">
-            <h1 id="hero-title">
-              Transform your
-              <br />
-              smile with lasting
-              <br />
-              <em>dental implants.</em>
-            </h1>
+            <h1 id="hero-title">Dental implants in Oregon & Washington</h1>
             <p className="hero-description">
-              Personalized dental implant care to help restore your confidence and functionality. Your next chapter
-              starts with a conversation.
+              Explore options for replacing missing teeth. Meet our team and book a free consultation at one of our five locations.
             </p>
             <div className="hero-actions">
               <a href="#locations" className="button">
                 Book your free consultation <ArrowUpRight size={18} />
               </a>
               <a className="button button-secondary" href="#care">
-                Explore implant care <ArrowDown size={16} />
+                Compare implant options <ArrowDown size={16} />
               </a>
             </div>
           </div>
@@ -137,7 +130,6 @@ function App() {
         </section>
 
         <section className="care-values" aria-label="Why choose Roots">
-          <p className="eyebrow">YOU’RE IN GOOD HANDS</p>
           <div>
             <h2>Experienced team</h2>
             <p>People who take the time to understand your needs.</p>
@@ -159,22 +151,12 @@ function App() {
         <section id="care" className="care-section section-pad">
           <div className="care-intro reveal">
             <div>
-              <p className="eyebrow">PERSONALIZED IMPLANT CARE</p>
-              <h2>
-                Dental implant
-                <br />
-                <em>treatments.</em>
-              </h2>
+              <h2>Dental implant options</h2>
             </div>
           </div>
           <div className="treatment-layout reveal">
             <div className="treatment-note">
-              <span className="eyebrow">LET’S START WITH YOU</span>
-              <h3>
-                What would you
-                <br />
-                like to change?
-              </h3>
+              <h3>Find the right treatment for you</h3>
               <Sprig variant="original" />
               <p>
                 You don’t need to have
@@ -188,7 +170,7 @@ function App() {
             <div className="treatment-options">
               {[
                 {
-                  title: "A single missing tooth",
+                  title: "Single-tooth implants",
                   image: "single-tooth",
                   alt: "Crafting a dental restoration, from the Roots single-tooth implant page",
                   copy: "Learn about single-tooth implants and discuss a replacement for a missing tooth with your dentist.",
@@ -196,7 +178,7 @@ function App() {
                   label: "Single-tooth implants",
                 },
                 {
-                  title: "A full smile to restore",
+                  title: "Full-arch implants",
                   image: "full-arch-treatment",
                   alt: "Discussing a model during a consultation, from the Roots full-arch page",
                   copy: "Explore full-arch implant care and the questions to bring to a consultation about replacing an upper or lower arch.",
@@ -204,7 +186,7 @@ function App() {
                   label: "Full-arch implants",
                 },
                 {
-                  title: "A different denture option",
+                  title: "Implant-supported dentures",
                   image: "implant-dentures",
                   alt: "Roots care team with a patient, from the implant-supported dentures page",
                   copy: "Ask your dental team about implant-supported dentures and how they compare with your current options.",
@@ -257,30 +239,24 @@ function App() {
               </div>
             </div>
           </div>
-          <MembershipPrices />
+          <MembershipPrices showEyebrow={false} />
         </section>
 
         <section className="conversation-band">
           <WoodlandBackground />
           <WoodlandBird />
           <div className="reveal">
-            <p className="eyebrow">A LITTLE LESS UNKNOWN</p>
-            <h2>
-              Bring your questions.
-              <br />
-              <em>We’ll take it from there.</em>
-            </h2>
+            <h2>Book a free consultation</h2>
             <p>
               Your comfort matters. So does clear financial information.
               <br />
               Ask about a personalized treatment plan and an all-inclusive quote.
             </p>
             <a href="#locations" className="text-link">
-              Discuss your options <ArrowUpRight size={18} />
+              Choose a location to book <ArrowUpRight size={18} />
             </a>
           </div>
           <div className="conversation-aside">
-            <span>YOUR FIRST STEP</span>
             <p>
               Choose a location.
               <br />
@@ -298,12 +274,7 @@ function App() {
 
         <section id="team" className="team-section section-pad">
           <div className="team-heading reveal">
-            <p className="eyebrow">YOUR ROOTS TEAM</p>
-            <h2>
-              Meet
-              <br />
-              <em>our care team.</em>
-            </h2>
+            <h2>Meet your dental care team</h2>
             <div className="team-introduction">
               <p>
                 Our team combines advanced technology with personalized care. Meet the seven people behind Roots before
@@ -338,12 +309,7 @@ function App() {
         <section id="results" className="results-section section-pad">
           <div className="results-heading reveal">
             <div>
-              <p className="eyebrow">REAL ROOTS PATIENTS</p>
-              <h2>
-                Patient results
-                <br />
-                <em>& stories.</em>
-              </h2>
+              <h2>Before-and-after photos & patient stories</h2>
             </div>
           </div>
           <div className="results-gallery">
@@ -400,16 +366,11 @@ function App() {
               )}
             </div>
             <div className="patient-story-copy">
-              <p className="eyebrow">PATIENT TESTIMONIAL</p>
-              <h3>Meet Crystal.</h3>
+              <h3>Crystal’s dental implant experience</h3>
               <p>Crystal, from Dallas, Oregon, shares her experience as a Roots Dental All-On-X patient.</p>
             </div>
             <div className="results-cta">
-              <p>
-                Let’s talk about
-                <br />
-                <em>your possibilities.</em>
-              </p>
+              <p>Discuss your treatment options</p>
               <a className="button" href="#locations">
                 Book a consultation <ArrowUpRight size={18} />
               </a>
@@ -418,8 +379,7 @@ function App() {
         </section>
         <section className="reviews-section section-pad" aria-labelledby="reviews-title">
           <div className="reviews-heading reveal">
-            <p className="eyebrow">PATIENT EXPERIENCES</p>
-            <h2 id="reviews-title">What our patients say.</h2>
+            <h2 id="reviews-title">Patient reviews</h2>
           </div>
           <div className="review-quotes">
             {[
@@ -441,12 +401,7 @@ function App() {
 
         <section id="questions" className="questions-section section-pad">
           <div className="reveal">
-            <p className="eyebrow">PATIENT INFORMATION</p>
-            <h2>
-              Frequently
-              <br />
-              <em>asked questions.</em>
-            </h2>
+            <h2>Frequently asked questions</h2>
             <a href="#locations" className="text-link">
               Ask our team <ArrowUpRight size={18} />
             </a>
@@ -496,12 +451,7 @@ function App() {
           <WoodlandBackground variant="locations" />
           <div className="locations-heading reveal">
             <div>
-              <p className="eyebrow">FIND A ROOTS IMPLANT CENTER</p>
-              <h2>
-                Your next step.
-                <br />
-                <em>A little closer.</em>
-              </h2>
+              <h2>Choose your Roots location</h2>
             </div>
           </div>
           <div className="location-list">

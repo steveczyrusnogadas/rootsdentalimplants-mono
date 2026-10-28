@@ -3,16 +3,16 @@ import { useState } from "react";
 import { ArrowUpRight, Play } from "lucide-react";
 import "@/homepage-experiment.css";
 
-export function MembershipPrices() {
+export function MembershipPrices({ showEyebrow = true }: { showEyebrow?: boolean }) {
   const locale = useLocale();
   return localizeTree(
     <aside className="membership-prices reveal" aria-labelledby="membership-title">
       <div className="membership-heading">
-        <p className="eyebrow">A CLEARER STARTING POINT</p>
+        {showEyebrow && <p className="eyebrow">A CLEARER STARTING POINT</p>}
         <h3 id="membership-title">
           Implant-supported dentures
           <br />
-          <em>“Teeth in a Day”</em>
+          {showEyebrow ? <em>“Teeth in a Day”</em> : <span>“Teeth in a Day” pricing</span>}
         </h3>
         <a className="text-link" href="/finance-insurance/">
           Explore payment options <ArrowUpRight size={18} />
@@ -50,12 +50,7 @@ export function ClinicIntroduction() {
   return localizeTree(
     <section className="clinic-introduction section-pad" aria-labelledby="clinic-introduction-title">
       <div className="clinic-introduction-copy reveal">
-        <p className="eyebrow">GET TO KNOW ROOTS</p>
-        <h2 id="clinic-introduction-title">
-          A closer look
-          <br />
-          <em>at our care.</em>
-        </h2>
+        <h2 id="clinic-introduction-title">Get to know Roots Dental</h2>
         <p>
           Meet the people and see the setting behind your next conversation. Take a moment to watch our introduction to
           Roots.
@@ -102,7 +97,6 @@ export function ClinicIntroduction() {
             <Play size={18} aria-hidden="true" />
           </span>
           <span>
-            <span className="eyebrow">ROOTS ON EVERYDAY NORTHWEST</span>
             <strong>Watch the TV interview</strong>
             <small>May 30, 2025 · Opens on YouTube</small>
           </span>
